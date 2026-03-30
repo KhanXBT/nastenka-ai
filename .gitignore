@@ -1,3 +1,7 @@
 node_modules/
 .DS_Store
 *.log
+implementation_plan.md
+task.md
+walkthrough.md
+AI_ALTER_BRAIN_PRD.md

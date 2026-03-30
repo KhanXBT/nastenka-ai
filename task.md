@@ -1,7 +1,0 @@
-- `[x]` Draft "The Story: The Day the Context Died"
-- `[x]` Define "Core Cognitive Architecture" (Hybrid Graph/State-Tree)
-- `[x]` Detailed Tech Stack Spec (Tauri, SurrealDB, Automerge, MCP)
-- `[x]` API/Tool Definitions (The 3 Core Tools)
-- `[x]` Implementation Workflow (The Conversational Switch & Rehydration)
-- `[x]` Security & Success Metrics
-- `[x]` Final Review & Polish of AI_ALTER_BRAIN_PRD.md
