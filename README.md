@@ -1,4 +1,4 @@
-# Nastenka AI 🌑✨
+# Nastenka AI - Your AI's Brain 🌑✨
 
 > *"Context is a ghost until it finds a body. Nastenka is the vessel for your AI's Brain."*
 
