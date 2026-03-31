@@ -16,7 +16,7 @@ In the world of AI, we are all "Dreamers." We spend hours in deep flow with a mo
 
 **Nastenka AI** is named after this witness. She sits above the models, ensuring that what you built in one dream carries over to the next—acting as a **Distributed Cognitive Shell** for your mind.
 
-### ✝️ The Meaning: Anastasia (Anastasis)
+### ✨ The Meaning: Anastasia (Anastasis)
 The name **Nastenka** is a diminutive of **Anastasia**, derived from the Greek word ***Anástasis***, meaning **"Resurrection."** 
 
 This is the technical mission of this project: **The Resurrection of your AI's Brain.** When a cognitive state "dies" in one platform, Nastenka rehydrates and resurrects that exact mental state in the next. 
