@@ -129,7 +129,7 @@ const LandingView: React.FC<LandingViewProps> = ({ onEnter }) => {
               BETA
             </span>
             <a 
-              href="https://github.com/crshdn/nas-ai" 
+              href="https://github.com/KhanXBT/nastenka-ai" 
               target="_blank" 
               rel="noreferrer"
               className="hidden md:block text-sm text-[#141413]/50 hover:text-[#141413] transition-colors duration-300"
@@ -170,7 +170,7 @@ const LandingView: React.FC<LandingViewProps> = ({ onEnter }) => {
 
             <div className="flex flex-col sm:flex-row items-start gap-3 pt-4">
               <a 
-                href="https://github.com/crshdn/nas-ai" 
+                href="https://github.com/KhanXBT/nastenka-ai" 
                 target="_blank"
                 rel="noreferrer"
                 className="group inline-flex items-center gap-2.5 px-7 py-3.5 bg-[#141413] text-[#faf9f5] rounded-sm text-xs uppercase tracking-[0.15em] font-medium hover:bg-[#141413]/90 transition-all duration-300"
@@ -301,7 +301,7 @@ const LandingView: React.FC<LandingViewProps> = ({ onEnter }) => {
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-3 pt-4">
                 <a 
-                  href="https://github.com/crshdn/nas-ai" 
+                  href="https://github.com/KhanXBT/nastenka-ai" 
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-[#faf9f5] text-[#141413] rounded-sm text-xs uppercase tracking-[0.15em] font-medium hover:bg-[#faf9f5]/90 transition-all duration-300"
@@ -337,11 +337,11 @@ const LandingView: React.FC<LandingViewProps> = ({ onEnter }) => {
               <span className="font-headline italic text-sm text-[#141413]/40">Nastenka AI</span>
             </div>
             <div className="flex items-center gap-6 text-xs text-[#141413]/35 uppercase tracking-[0.15em]">
-              <span>© 2026</span>
+              <span>© 2026 Archive</span>
               <span className="w-1 h-1 rounded-full bg-[#141413]/20" />
               <span>MIT License</span>
               <span className="w-1 h-1 rounded-full bg-[#141413]/20" />
-              <span className="font-headline italic normal-case tracking-normal">Sovereign Intelligence</span>
+              <span className="font-headline italic normal-case tracking-normal">Sovereign Intelligence Architecture</span>
             </div>
           </div>
         </footer>

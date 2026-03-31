@@ -59,13 +59,13 @@ const mcpServer = new McpServer({
 // TOOL: Witness Flow
 mcpServer.tool(
   "witness_flow",
-  "Capture the current architectural intent and cognitive state of the user.",
+  "Record current intent & context.",
   {
-    projectName: z.string().describe("The name of the project being worked on"),
-    modelId: z.string().describe("The name/ID of the LLM currently witnessing"),
-    intent: z.string().describe("The immediate goal or intent of the current session"),
-    context: z.string().describe("A snippet of the most critical context to carry forward"),
-    syncToFilecoin: z.boolean().optional().describe("Whether to anchor this synapse on Filecoin"),
+    projectName: z.string().describe("Project name"),
+    modelId: z.string().describe("LLM ID"),
+    intent: z.string().describe("Current goal/intent"),
+    context: z.string().describe("Critical context snippet"),
+    syncToFilecoin: z.boolean().optional().describe("Sync to Filecoin?"),
   },
   async ({ projectName, modelId, intent, context, syncToFilecoin }) => {
     saveSynapse(projectName, modelId, intent, context);
@@ -92,11 +92,11 @@ mcpServer.tool(
 // TOOL: Mark Strategic Decision
 mcpServer.tool(
   "mark_strategic_decision",
-  "Lock in a permanent architectural decision or project rule.",
+  "Lock a permanent project rule.",
   {
-    projectName: z.string().describe("The project name"),
-    decisionName: z.string().describe("The name of the strategic decision (e.g. 'Database Selection')"),
-    rationale: z.string().describe("The reason why this decision was made"),
+    projectName: z.string().describe("Project name"),
+    decisionName: z.string().describe("Decision name (e.g. 'DB')"),
+    rationale: z.string().describe("Rationale"),
   },
   async ({ projectName, decisionName, rationale }) => {
     saveStrategicDecision(projectName, decisionName, rationale);
@@ -109,9 +109,9 @@ mcpServer.tool(
 // TOOL: Resurrect Brain
 mcpServer.tool(
   "resurrect_brain",
-  "Retrieve the full cognitive grounding and latest synapses for a project.",
+  "Retrieve project grounding.",
   {
-    projectName: z.string().describe("The project name to resurrect"),
+    projectName: z.string().describe("Project to resurrect"),
   },
   async ({ projectName }) => {
     const data = getProjectGrounding(projectName) as { rules: StrategicRule[], latestSynapse: Synapse | undefined };
