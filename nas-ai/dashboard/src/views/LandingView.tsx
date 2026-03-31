@@ -1,4 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import SetupModal from '../components/SetupModal';
+
 
 interface Ray {
   x: number;
@@ -17,6 +19,8 @@ interface LandingViewProps {
 const LandingView: React.FC<LandingViewProps> = ({ onEnter }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const raysRef = useRef<Ray[]>([]);
+  const [isSetupOpen, setIsSetupOpen] = useState(false);
+
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -177,7 +181,10 @@ const LandingView: React.FC<LandingViewProps> = ({ onEnter }) => {
                 Explore on GitHub
               </a>
 
-              <button className="group inline-flex items-center gap-2.5 px-7 py-3.5 border border-[#141413]/20 text-[#141413] rounded-sm text-xs uppercase tracking-[0.15em] font-medium hover:border-[#141413]/40 hover:bg-[#141413]/[0.02] transition-all duration-300">
+              <button 
+                onClick={() => setIsSetupOpen(true)}
+                className="group inline-flex items-center gap-2.5 px-7 py-3.5 border border-[#141413]/20 text-[#141413] rounded-sm text-xs uppercase tracking-[0.15em] font-medium hover:border-[#141413]/40 hover:bg-[#141413]/[0.02] transition-all duration-300"
+              >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
                 </svg>
@@ -339,6 +346,11 @@ const LandingView: React.FC<LandingViewProps> = ({ onEnter }) => {
           </div>
         </footer>
       </div>
+
+      <SetupModal 
+        isOpen={isSetupOpen} 
+        onClose={() => setIsSetupOpen(false)} 
+      />
     </div>
   );
 };

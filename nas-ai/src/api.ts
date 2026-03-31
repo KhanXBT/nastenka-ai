@@ -1,13 +1,138 @@
 import express from 'express';
 import cors from 'cors';
-import { getProjectGrounding, saveSynapse } from './db.js';
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
+import { z } from "zod";
+import { setupDB, saveSynapse, saveStrategicDecision, getProjectGrounding } from './db.js';
+import { uploadToFilecoin } from "./storage/filecoin.js";
+
+interface Synapse {
+  intent: string;
+  context_snippet: string;
+}
+
+interface StrategicRule {
+  decision_name: string;
+  rationale: string;
+}
 
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
 
+// Initialize the Database
+setupDB();
+
+// -----------------------------------------------------------------------------
+// 🧠 MCP Server Initialization (The Neural Port)
+// -----------------------------------------------------------------------------
+const mcpServer = new McpServer({
+  name: "Nastenka-AI",
+  version: "1.0.0",
+});
+
+// TOOL: Witness Flow
+mcpServer.tool(
+  "witness_flow",
+  "Capture the current architectural intent and cognitive state of the user.",
+  {
+    projectName: z.string().describe("The name of the project being worked on"),
+    modelId: z.string().describe("The name/ID of the LLM currently witnessing"),
+    intent: z.string().describe("The immediate goal or intent of the current session"),
+    context: z.string().describe("A snippet of the most critical context to carry forward"),
+    syncToFilecoin: z.boolean().optional().describe("Whether to anchor this synapse on Filecoin"),
+  },
+  async ({ projectName, modelId, intent, context, syncToFilecoin }) => {
+    saveSynapse(projectName, modelId, intent, context);
+    
+    let filecoinCid = "LOCAL_ONLY";
+    if (syncToFilecoin) {
+      try {
+        const cid = await uploadToFilecoin({ projectName, modelId, intent, context });
+        filecoinCid = cid.toString();
+      } catch (e) {
+        console.error("Filecoin Upload Synapse Error:", e);
+      }
+    }
+
+    return {
+      content: [{ 
+        type: "text", 
+        text: `Nastenka has witnessed the flow for '${projectName}'.\nSynapse recorded.\nFilecoin Proof: ${filecoinCid}` 
+      }],
+    };
+  }
+);
+
+// TOOL: Mark Strategic Decision
+mcpServer.tool(
+  "mark_strategic_decision",
+  "Lock in a permanent architectural decision or project rule.",
+  {
+    projectName: z.string().describe("The project name"),
+    decisionName: z.string().describe("The name of the strategic decision (e.g. 'Database Selection')"),
+    rationale: z.string().describe("The reason why this decision was made"),
+  },
+  async ({ projectName, decisionName, rationale }) => {
+    saveStrategicDecision(projectName, decisionName, rationale);
+    return {
+      content: [{ type: "text", text: `Strategic decision '${decisionName}' has been locked by Nastenka for '${projectName}'.` }],
+    };
+  }
+);
+
+// TOOL: Resurrect Brain
+mcpServer.tool(
+  "resurrect_brain",
+  "Retrieve the full cognitive grounding and latest synapses for a project.",
+  {
+    projectName: z.string().describe("The project name to resurrect"),
+  },
+  async ({ projectName }) => {
+    const data = getProjectGrounding(projectName) as { rules: StrategicRule[], latestSynapse: Synapse | undefined };
+    
+    if (!data.latestSynapse && data.rules.length === 0) {
+      return {
+        content: [{ type: "text", text: `Nastenka has no memory of a project named '${projectName}'.` }],
+      };
+    }
+
+    const rulesStr = data.rules.map((r: StrategicRule) => `- ${r.decision_name}: ${r.rationale}`).join("\n");
+    const synapseStr = data.latestSynapse 
+      ? `\nLATEST INTENT: ${data.latestSynapse.intent}\nLATEST CONTEXT: ${data.latestSynapse.context_snippet}`
+      : "";
+
+    return {
+      content: [{ type: "text", text: `NASTENKA RESURRECTION PAYLOAD for '${projectName}':\n\nSTRATEGIC RULES:\n${rulesStr}\n${synapseStr}` }],
+    };
+  }
+);
+
+// -----------------------------------------------------------------------------
+// 🌐 SSE Transport Logic
+// -----------------------------------------------------------------------------
+let transport: SSEServerTransport;
+
+app.get("/sse", async (req, res) => {
+  console.log("Nastenka: Establishing Real-time SSE Handshake...");
+  transport = new SSEServerTransport("/messages", res);
+  await mcpServer.connect(transport);
+});
+
+app.post("/messages", async (req, res) => {
+  console.log("Nastenka: Processing Neural Message...");
+  if (transport) {
+    await transport.handlePostMessage(req, res);
+  } else {
+    res.status(400).json({ error: "No active SSE transport found." });
+  }
+});
+
+// -----------------------------------------------------------------------------
+// 🏛️ Legacy REST API for Dashboard
+// -----------------------------------------------------------------------------
 app.get('/api/synapses/:project', (req, res) => {
   const projectName = req.params.project;
   const data = getProjectGrounding(projectName);
@@ -23,6 +148,9 @@ app.post('/api/synapses', (req, res) => {
   res.json({ success: true, id: result.lastInsertRowid });
 });
 
+// 🚀 Start the Server
 app.listen(port, () => {
-  console.error(`Nastenka AI API running at http://localhost:${port}`);
+  console.error(`Nastenka AI Unified Intelligence Hub running at: http://localhost:${port}`);
+  console.error(`- REST API: /api/synapses/:project`);
+  console.error(`- MCP SSE Root: /sse`);
 });

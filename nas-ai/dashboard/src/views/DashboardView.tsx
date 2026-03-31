@@ -41,9 +41,9 @@ const DashboardView: React.FC<DashboardViewProps> = ({ onLogout }) => {
         </div>
         <div className="flex items-center gap-6">
           <nav className="hidden md:flex gap-8">
-            <button className="text-violet-200 brightness-125 font-sans text-xs uppercase tracking-widest">Archives</button>
-            <button className="text-slate-400 hover:text-violet-300 transition-colors duration-500 font-sans text-xs uppercase tracking-widest">Repositories</button>
-            <button className="text-slate-400 hover:text-violet-300 transition-colors duration-500 font-sans text-xs uppercase tracking-widest">Nodes</button>
+            <button onClick={() => refreshData()} className="text-violet-200 brightness-125 font-sans text-xs uppercase tracking-widest hover:text-primary transition-colors">Archives</button>
+            <button onClick={() => alert('Sovereign Repository access initializing...')} className="text-slate-400 hover:text-violet-300 transition-colors duration-500 font-sans text-xs uppercase tracking-widest">Repositories</button>
+            <button onClick={() => setIsConnectorOpen(true)} className="text-slate-400 hover:text-violet-300 transition-colors duration-500 font-sans text-xs uppercase tracking-widest">Nodes</button>
           </nav>
           <div className="flex items-center gap-4">
             <button 
@@ -79,7 +79,7 @@ const DashboardView: React.FC<DashboardViewProps> = ({ onLogout }) => {
               <span className="material-symbols-outlined text-violet-400 text-lg">database</span>
               <span className="font-body uppercase tracking-[0.1em] text-[10px] font-bold">Archive Feed</span>
             </button>
-            <button className="w-full flex items-center gap-3 py-3 px-4 rounded-xl text-slate-400 hover:bg-white/5 hover:text-violet-300 transition-all duration-500 text-left group">
+            <button className="w-full flex items-center gap-3 py-3 px-4 rounded-xl text-slate-400 hover:bg-white/5 hover:text-violet-300 transition-all duration-500 text-left group" onClick={() => alert('Synchronizing sovereign repositories...')}>
               <span className="material-symbols-outlined text-lg group-hover:scale-110 transition-transform">cloud_done</span>
               <span className="font-body uppercase tracking-[0.1em] text-[10px]">Synchronized Repos</span>
             </button>
@@ -173,7 +173,10 @@ const DashboardView: React.FC<DashboardViewProps> = ({ onLogout }) => {
                       <span className="material-symbols-outlined text-3xl">insights</span>
                       <span className="text-[10px] uppercase font-label">Neural Flow v.1866</span>
                     </div>
-                    <button className="px-6 py-2 bg-gradient-to-br from-primary to-on-primary-container text-on-primary font-body text-xs uppercase tracking-widest rounded-md font-bold shadow-lg shadow-primary/10">
+                    <button 
+                      onClick={() => window.open('https://github.com/KhanXBT/nastenka-ai', '_blank')}
+                      className="px-6 py-2 bg-gradient-to-br from-primary to-on-primary-container text-on-primary font-body text-xs uppercase tracking-widest rounded-md font-bold shadow-lg shadow-primary/10 hover:shadow-primary/20 transition-all"
+                    >
                       Open Repository
                     </button>
                   </div>
