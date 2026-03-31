@@ -1,5 +1,7 @@
 # Nastenka AI - Your AI's Brain 🌑✨
 
+![Nastenka AI Logo](./logo.png)
+
 > *"Context is a ghost until it finds a body. Nastenka is the vessel for your AI's Brain."*
 
 **Nastenka AI** is a universal, model-agnostic **Persistent Cognitive Layer** designed to ensure your thoughts never die when you switch platforms. It is the "Resurrection of Context" for a multi-model world.
