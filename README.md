@@ -6,16 +6,16 @@
 
 ---
 
-## 🔌 Re-establishing Your AI's Brain (MCP Handshake)
-**To use Nastenka AI in Cursor or Claude Desktop, simply add this Hub as a new MCP server.**
+## ⚡ The Universal Handshake (MCP)
+**Connect any AI model (Qwen, Claude, GPT) to your personal Nastenka Hub in seconds.**
 
-### **1. Copy the Handshake URL**
-`http://localhost:3001/sse`
+### **1. Copy your Hub's Global Resonance URL**
+`https://hub.nastenka.ai/sse` (or your local sanctuary)
 
-### **2. Add to your Platform**
+### **2. Add as a New MCP Server**
 - **Type**: `SSE`
-- **Platform**: Cursor AI // Claude Desktop // OpenCode (Qwen)
-- **Status**: Live & Sovereign.
+- **Platform**: OpenCode // Cursor // Claude Desktop
+- **Resonance**: Active
 
 ---
 
@@ -45,35 +45,13 @@ Current AI systems are stateless. They are locked in silos. **Nastenka AI** turn
 
 ---
 
-## 🛠️ The Cognitive Architecture: The Neural Ledger
+## 🛠️ The Global Architecture
 
-Built for the user who refuses to leave their brain behind.
+Built for the dreamer who refuse to leave their brain behind.
 
-*   **Tauri 2.0 (Rust):** The cross-platform host for your local brain (Mac, Win, Linux, Android, iOS).
-*   **SurrealDB (Embedded):** A local-first Knowledge Graph database mapping the complex synapses of your thoughts.
-*   **Automerge (CRDTs):** Ensures your "Mobile Brain" and "Desktop Brain" sync into a single cognitive continuum.
-*   **Model Context Protocol (MCP):** The universal neural bridge that connects Nastenka to any AI provider.
-
----
-
-## 🚀 The Vision: Ownership of Cognition
-
-We believe the user should own their **Cognitive Architecture**, not the AI platform. Using **End-to-End Encryption (Curve25519)** and **Local-First** principles, Nastenka AI ensures that your brain's history is for your eyes only.
-
-### **The Three Synaptic Tools:**
-*   **`sync_current_intent`**: Captures the active pulse of your cognitive work.
-*   **`get_architectural_grounding`**: Injects absolute mental truths into new models.
-*   **`mark_structural_decision`**: Locks in your project's neural pathways to prevent context loss.
-
----
-
-## ⚙️ Developer Setup (Self-Hosting the Hub)
-If you are running Nastenka locally for the first time:
-```bash
-cp .env.example .env
-npm install
-npm run start:api
-```
+*   **Intelligence Hub (Node.js SDK):** The cross-platform bridge for your local sanctuary.
+*   **The Brain (Local-first // SQLite):** A sovereign Knowledge Graph database mapping the complex synapses of your thoughts.
+*   **Model Context Protocol (MCP):** The universal neural bridge that connects Nastenka to any platform-agnostic AI provider.
 
 ---
 
@@ -82,7 +60,16 @@ Distributed under the **MIT License**. Build with sovereign intent.
 
 ---
 
-**"I am a dreamer; I have so little real life that I look upon such moments as this as so rare that I cannot help going over such moments again in my dreams."** 
+**"I am a dreamer; I have so life real life that I look upon such moments as this as so rare that I cannot help going over such moments again in my dreams."** 
 — *Fyodor Dostoevsky, White Nights*
 
 **Let's stop dreaming in silos. Let's start thinking in a Continuum.**
+
+---
+
+##### [Developer Appendix: Self-Hosting a Sovereign Hub]
+To run your own local sanctuary: 
+1. `npm install`
+2. `npm run start:api`
+Your local resonance heartbeat will be at `http://localhost:3001/sse`.
+
