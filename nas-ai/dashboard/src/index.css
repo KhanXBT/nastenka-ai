@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,200;1,6..72,300;1,6..72,400;1,6..72,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Space-separated RGB values for Tailwind <alpha-value> support */
+    --color-background: 12 19 36;
+    --color-on-background: 220 225 251;
+    
+    --color-primary: 208 188 255;
+    --color-on-primary: 60 0 145;
+    --color-primary-container: 10 0 38;
+    --color-on-primary-container: 136 89 243;
+    
+    --color-secondary: 188 199 222;
+    --color-on-secondary: 38 49 67;
+    --color-secondary-container: 62 73 93;
+    --color-on-secondary-container: 174 185 208;
+    
+    --color-surface-container-lowest: 7 13 31;
+    --color-surface-container-low: 21 27 45;
+    --color-surface-container: 25 31 49;
+    --color-surface-container-high: 35 41 60;
+    --color-surface-container-highest: 46 52 71;
+    
+    --color-outline: 144 144 151;
+    --color-outline-variant: 70 70 76;
+    
+    --color-error: 255 180 171;
+  }
+
+  body {
+    @apply bg-background text-on-background font-body;
+    background-color: rgb(var(--color-background));
+  }
+}
+
+@layer components {
+  .font-headline {
+    font-family: 'Newsreader', serif;
+  }
+  
+  .font-body {
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .font-label {
+    @apply font-body uppercase;
+  }
+
+  .glass-panel {
+    @apply bg-white/40 backdrop-blur-3xl border border-black/5 shadow-[0_8px_32px_0_rgba(0,0,0,0.1)];
+  }
+
+  .glass-button {
+    @apply relative overflow-hidden backdrop-blur-md transition-all duration-300 hover:shadow-lg;
+  }
+
+  .editorial-gradient {
+    background: radial-gradient(circle at center, rgba(139, 92, 246, 0.05) 0%, rgba(250, 249, 245, 0) 70%);
+  }
+
+  .no-line {
+    @apply border-none outline-none ring-0;
+  }
+
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+    @apply align-middle;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(var(--color-surface-container-lowest));
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--color-surface-container-highest));
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--color-primary));
+}

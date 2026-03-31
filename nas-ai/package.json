@@ -1,0 +1,42 @@
+{
+  "name": "nas-ai",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node --no-warnings=ExperimentalWarning --loader ts-node/esm src/index.ts",
+    "start:api": "node --no-warnings=ExperimentalWarning --loader ts-node/esm src/api.ts",
+    "seed": "node --no-warnings=ExperimentalWarning --loader ts-node/esm src/seed.ts",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@filoz/synapse-sdk": "^0.40.2",
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.5.0",
+    "axios": "^1.14.0",
+    "better-sqlite3": "^12.8.0",
+    "clsx": "^2.1.1",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "framer-motion": "^12.38.0",
+    "lucide-react": "^1.7.0",
+    "tailwind-merge": "^3.5.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.2",
+    "viem": "^2.47.6",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "autoprefixer": "^10.4.27",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^4.2.2"
+  }
+}
