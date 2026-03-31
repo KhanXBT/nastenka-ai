@@ -9,6 +9,7 @@ interface NodeConnectorProps {
 
 const NodeConnector: React.FC<NodeConnectorProps> = ({ isOpen, onClose, onConnectComplete }) => {
   const [url, setUrl] = useState('http://localhost:3001/sse');
+  const [apiKey, setApiKey] = useState(archiveService.getApiKey() || '');
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -22,6 +23,8 @@ const NodeConnector: React.FC<NodeConnectorProps> = ({ isOpen, onClose, onConnec
     setError(null);
 
     try {
+      // Save key before connecting
+      archiveService.setApiKey(apiKey);
       await archiveService.connectMCP(url);
       onConnectComplete();
       onClose();
@@ -56,6 +59,19 @@ const NodeConnector: React.FC<NodeConnectorProps> = ({ isOpen, onClose, onConnec
               placeholder="http://localhost:3001/sse"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
+              required
+              disabled={isConnecting}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-[10px] uppercase font-label text-slate-500 ml-1">Sovereign Key (X-NASTENKA-KEY)</label>
+            <input 
+              type="password" 
+              className="w-full bg-background border border-outline-variant/20 p-4 rounded-xl text-sm font-body text-violet-100 focus:border-primary outline-none transition-all placeholder:text-white/10"
+              placeholder="Enter your private resonance key"
+              value={apiKey}
+              onChange={(e) => setApiKey(e.target.value)}
               required
               disabled={isConnecting}
             />

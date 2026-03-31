@@ -2,14 +2,14 @@ import { Synapse } from '@filoz/synapse-sdk';
 import { calibration } from '@filoz/synapse-core/chains';
 import { http } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
+import 'dotenv/config';
 
-// For the hackathon demo, we will use a generated account or a placeholder
-// In production, this would be a user-provided private key or a session-key
-const PLACEHOLDER_PK = 'REDACTED_SOVEREIGN_KEY'; // Replace with a valid testnet key
+// In production, this is a user-provided private key from .env
+const FILECOIN_PK = process.env.FILECOIN_PRIVATE_KEY || 'REDACTED_SOVEREIGN_KEY';
 
 export async function uploadToFilecoin(data: object) {
   try {
-    const account = privateKeyToAccount(PLACEHOLDER_PK as `0x${string}`);
+    const account = privateKeyToAccount(FILECOIN_PK as `0x${string}`);
     const synapse = Synapse.create({
       chain: calibration,
       transport: http(),
@@ -22,11 +22,10 @@ export async function uploadToFilecoin(data: object) {
 
     console.error('Uploading context synapse to Filecoin Calibration...');
     
-    // In a real environment, we would use the actual upload method
-    // For the 16h hackathon, we might want to mock the 'CID' return if we don't have funds
+    // For the hackathon, we attempt a real upload to the Calibration testnet
     const result = await synapse.storage.upload(encodedData, {
       callbacks: {
-        onStored: (providerId, pieceCid) => {
+        onStored: (providerId: any, pieceCid: any) => {
           console.error(`Stored on provider ${providerId}: ${pieceCid}`);
         }
       }

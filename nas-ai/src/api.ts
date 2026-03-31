@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import 'dotenv/config';
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
 import { z } from "zod";
@@ -21,6 +22,28 @@ const port = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
+
+// --- Sovereign Authentication Middleware ---
+const authenticate = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  const sovereignKey = process.env.NASTENKA_API_KEY;
+  const providedKey = req.headers['x-nastenka-key'];
+
+  if (!sovereignKey) {
+    // If no key is set in .env, we DENY access to ensure sovereignty
+    console.error('❌ SECURITY ALERT: No NASTENKA_API_KEY set in .env. Access denied by default.');
+    return res.status(500).json({ error: 'Sovereign Hub Error: Security key not configured on server.' });
+  }
+
+  if (providedKey !== sovereignKey) {
+    return res.status(401).json({ error: 'Unauthorized: Sovereign Key required.' });
+  }
+  next();
+};
+
+// Apply authentication to all non-public routes
+app.use('/api', authenticate);
+app.use('/sse', authenticate);
+app.use('/messages', authenticate);
 
 // Initialize the Database
 setupDB();

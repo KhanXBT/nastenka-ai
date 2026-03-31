@@ -6,6 +6,7 @@ const API_BASE = 'http://localhost:3001/api';
 class ArchiveService {
   private nodes: ArchiveNode[] = [];
   private logs: LogEntry[] = [];
+  private apiKey: string | null = null;
 
   constructor() {
     this.loadFromStorage();
@@ -14,8 +15,18 @@ class ArchiveService {
   private loadFromStorage() {
     const savedNodes = localStorage.getItem('nas_ai_nodes');
     const savedLogs = localStorage.getItem('nas_ai_logs');
+    this.apiKey = localStorage.getItem('nas_ai_key');
     if (savedNodes) this.nodes = JSON.parse(savedNodes);
     if (savedLogs) this.logs = JSON.parse(savedLogs);
+  }
+
+  setApiKey(key: string) {
+    this.apiKey = key;
+    localStorage.setItem('nas_ai_key', key);
+  }
+
+  getApiKey() {
+    return this.apiKey;
   }
 
   private saveToStorage() {
@@ -25,7 +36,11 @@ class ArchiveService {
 
   async fetchProjectData(projectName: string = 'Nas AI'): Promise<void> {
     try {
-      const response = await axios.get(`${API_BASE}/synapses/${projectName}`);
+      const response = await axios.get(`${API_BASE}/synapses/${projectName}`, {
+        headers: {
+          'X-NASTENKA-KEY': this.apiKey || ''
+        }
+      });
       const { rules, latestSynapse } = response.data;
 
       // Map DB rules and synapse to UI nodes if they don't exist yet
@@ -90,6 +105,10 @@ class ArchiveService {
               modelId: 'Imported-ChatGPT',
               intent: `Resurrection of ${file.name}`,
               context: `Imported ${data.length} conversations for sovereign archive.`
+            }, {
+              headers: {
+                'X-NASTENKA-KEY': this.apiKey || ''
+              }
             });
 
             await this.fetchProjectData('Nas AI');
