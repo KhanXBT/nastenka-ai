@@ -20,6 +20,9 @@ interface StrategicRule {
 const app = express();
 const port = process.env.PORT || 3001;
 
+// Export the app for Vercel's serverless handler
+export default app;
+
 app.use(cors());
 app.use(express.json());
 
@@ -171,9 +174,11 @@ app.post('/api/synapses', (req, res) => {
   res.json({ success: true, id: result.lastInsertRowid });
 });
 
-// 🚀 Start the Server
-app.listen(port, () => {
-  console.error(`Nastenka AI Unified Intelligence Hub running at: http://localhost:${port}`);
-  console.error(`- REST API: /api/synapses/:project`);
-  console.error(`- MCP SSE Root: /sse`);
-});
+// Only start the server if we're not in a serverless environment
+if (process.env.NODE_ENV !== 'production' || process.env.VERCEL !== '1') {
+  app.listen(port, () => {
+    console.error(`Nastenka AI Unified Intelligence Hub running at: http://localhost:${port}`);
+    console.error(`- REST API: /api/synapses/:project`);
+    console.error(`- MCP SSE Root: /sse`);
+  });
+}
