@@ -104,22 +104,13 @@ const LandingView: React.FC<LandingViewProps> = ({ onEnter }) => {
       <div className="relative z-10">
         <nav className="flex justify-between items-center px-6 md:px-12 lg:px-16 py-6 md:py-8">
           <div className="flex items-center gap-3">
-            <div className="relative w-10 h-10 md:w-11 md:h-11 group cursor-pointer">
-              <svg viewBox="0 0 44 44" className="w-full h-full" fill="none">
-                <circle cx="22" cy="22" r="21" stroke="#141413" strokeWidth="1" opacity="0.15" />
-                <text 
-                  x="22" 
-                  y="30" 
-                  textAnchor="middle" 
-                  fontFamily="Newsreader, serif" 
-                  fontStyle="italic" 
-                  fontSize="26" 
-                  fill="#141413"
-                >
-                  N
-                </text>
-              </svg>
-              <div className="absolute inset-0 rounded-full bg-[#141413]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="relative w-10 h-10 md:w-11 md:h-11 group cursor-pointer overflow-hidden rounded-full border border-[#141413]/10">
+              <img 
+                src="/logo.png" 
+                alt="Nastenka AI Logo" 
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-[#141413]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </div>
             <span className="font-headline italic text-lg md:text-xl tracking-tight text-[#141413]">Nastenka</span>
           </div>
@@ -319,21 +310,9 @@ const LandingView: React.FC<LandingViewProps> = ({ onEnter }) => {
         <footer className="px-6 md:px-12 lg:px-16 py-10 border-t border-[#141413]/8">
           <div className="max-w-[1200px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="flex items-center gap-3">
-              <svg viewBox="0 0 32 32" className="w-7 h-7" fill="none">
-                <circle cx="16" cy="16" r="15" stroke="#141413" strokeWidth="0.75" opacity="0.15" />
-                <text 
-                  x="16" 
-                  y="22" 
-                  textAnchor="middle" 
-                  fontFamily="Newsreader, serif" 
-                  fontStyle="italic" 
-                  fontSize="19" 
-                  fill="#141413"
-                  opacity="0.5"
-                >
-                  N
-                </text>
-              </svg>
+              <div className="w-7 h-7 rounded-full overflow-hidden border border-[#141413]/10 opacity-60">
+                <img src="/logo.png" alt="Nastenka AI Logo" className="w-full h-full object-cover" />
+              </div>
               <span className="font-headline italic text-sm text-[#141413]/40">Nastenka AI</span>
             </div>
             <div className="flex items-center gap-6 text-xs text-[#141413]/35 uppercase tracking-[0.15em]">
