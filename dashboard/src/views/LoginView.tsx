@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import NeuralRays from '../components/NeuralRays';
+import WaitlistModal from '../components/WaitlistModal';
 
 interface LoginViewProps {
   onLogin: () => void;
 }
 
 const LoginView: React.FC<LoginViewProps> = ({ onLogin }) => {
+  const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onLogin();
@@ -96,10 +99,12 @@ const LoginView: React.FC<LoginViewProps> = ({ onLogin }) => {
           <div className="mt-10 flex flex-col items-center gap-4">
             <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-outline-variant/30 to-transparent" />
             <p className="font-body text-xs text-secondary/40">
-              First encounter? <button className="text-primary/80 hover:text-primary underline underline-offset-4 decoration-primary/20 transition-colors">Apply for Protocol Access</button>
+              First encounter? <button onClick={() => setIsWaitlistOpen(true)} className="text-primary/80 hover:text-primary underline underline-offset-4 decoration-primary/20 transition-colors">Apply for Protocol Access</button>
             </p>
           </div>
         </div>
+
+        <WaitlistModal isOpen={isWaitlistOpen} onClose={() => setIsWaitlistOpen(false)} />
 
         <footer className="mt-12 text-center">
           <div className="flex justify-center gap-6 mb-4">

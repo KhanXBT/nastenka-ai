@@ -5,7 +5,13 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
 import { z } from "zod";
 import { seedDream } from './seed.js';
-import { setupDB, saveSynapse, saveStrategicDecision, getProjectGrounding } from './db.js';
+import { 
+  setupDB, 
+  saveSynapse, 
+  saveStrategicDecision, 
+  getProjectGrounding,
+  saveWaitlistEmail
+} from "./db.js";
 import { uploadToFilecoin } from "./storage/filecoin.js";
 
 interface Synapse {
@@ -170,14 +176,22 @@ app.get('/api/synapses/:project', (req, res) => {
   res.json(data);
 });
 
-app.post('/api/synapses', (req, res) => {
-  const { projectName, intent, context } = req.body;
-  if (!projectName || !intent || !context) {
-    return res.status(400).json({ error: 'Missing required fields' });
+app.post("/api/synapses", (req, res) => {
+  const { project, type, content } = req.body;
+  if (!project || !type || !content) {
+    return res.status(400).json({ error: "Context depth insufficient (missing fields)." });
   }
-  saveSynapse(projectName, 'intent', intent);
-  saveSynapse(projectName, 'context', context);
-  res.json({ status: 'resonant' });
+  saveSynapse(project, type, content);
+  res.json({ message: "Witnessed: Context added to sovereign ledger." });
+});
+
+app.post("/api/waitlist", (req, res) => {
+  const { email } = req.body;
+  if (!email) {
+    return res.status(400).json({ error: "Identity proxy missing (email)." });
+  }
+  saveWaitlistEmail(email);
+  res.json({ message: "Resonance Captured: You are now a seeker in the archive." });
 });
 
 // Only start the server if we're not in a serverless environment

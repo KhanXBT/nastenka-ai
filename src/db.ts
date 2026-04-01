@@ -35,6 +35,12 @@ export function setupDB() {
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY(project) REFERENCES projects(id)
     );
+
+    CREATE TABLE IF NOT EXISTS waitlist (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      email TEXT UNIQUE,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
   `);
 }
 
@@ -57,6 +63,11 @@ export function getProjectGrounding(project: string) {
   const latestSynapses = db.prepare("SELECT * FROM synapses WHERE project = ? ORDER BY created_at DESC").all(project);
   
   return { rules, latestSynapses };
+}
+
+export function saveWaitlistEmail(email: string) {
+  const stmt = db.prepare("INSERT OR IGNORE INTO waitlist (email) VALUES (?)");
+  return stmt.run(email);
 }
 
 export default db;
