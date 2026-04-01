@@ -6,10 +6,18 @@ const dbPath = IS_VERCEL
   ? path.join("/tmp", "nastenka_brain.db") 
   : path.join(process.cwd(), "nastenka_brain.db");
 
-const db = new Database(dbPath);
+let db: any = null;
+
+function getDB() {
+  if (!db) {
+    db = new Database(dbPath);
+  }
+  return db;
+}
 
 export function setupDB() {
-  db.exec(`
+  const sqlite = getDB();
+  sqlite.exec(`
     CREATE TABLE IF NOT EXISTS projects (
       id TEXT PRIMARY KEY,
       name TEXT,
@@ -45,33 +53,38 @@ export function setupDB() {
 }
 
 export function saveSynapse(project: string, type: string, content: string) {
-  const stmt = db.prepare(
+  const sqlite = getDB();
+  const stmt = sqlite.prepare(
     "INSERT INTO synapses (project, type, content) VALUES (?, ?, ?)"
   );
   return stmt.run(project, type, content);
 }
 
 export function saveStrategicDecision(project: string, decision: string, rationale: string) {
-  const stmt = db.prepare(
+  const sqlite = getDB();
+  const stmt = sqlite.prepare(
     "INSERT INTO strategic_rules (project, decision, rationale) VALUES (?, ?, ?)"
   );
   return stmt.run(project, decision, rationale);
 }
 
 export function getProjectGrounding(project: string) {
-  const rules = db.prepare("SELECT * FROM strategic_rules WHERE project = ?").all(project);
-  const latestSynapses = db.prepare("SELECT * FROM synapses WHERE project = ? ORDER BY created_at DESC").all(project);
+  const sqlite = getDB();
+  const rules = sqlite.prepare("SELECT * FROM strategic_rules WHERE project = ?").all(project);
+  const latestSynapses = sqlite.prepare("SELECT * FROM synapses WHERE project = ? ORDER BY created_at DESC").all(project);
   
   return { rules, latestSynapses };
 }
 
 export function saveWaitlistEmail(email: string) {
-  const stmt = db.prepare("INSERT OR IGNORE INTO waitlist (email) VALUES (?)");
+  const sqlite = getDB();
+  const stmt = sqlite.prepare("INSERT OR IGNORE INTO waitlist (email) VALUES (?)");
   return stmt.run(email);
 }
 
 export function getWaitlist() {
-  return db.prepare("SELECT * FROM waitlist ORDER BY created_at DESC").all();
+  const sqlite = getDB();
+  return sqlite.prepare("SELECT * FROM waitlist ORDER BY created_at DESC").all();
 }
 
 export default db;

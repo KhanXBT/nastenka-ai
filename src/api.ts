@@ -53,14 +53,31 @@ const authenticate = (req: express.Request, res: express.Response, next: express
   next();
 };
 
+// --- Lazy Database Initialization Middleware ---
+let isMemoryInitialized = false;
+const initializeMemory = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  if (!isMemoryInitialized) {
+    console.log("🌑 Nastenka: Waking up neural memory for the first time...");
+    try {
+      setupDB();
+      seedDream();
+      isMemoryInitialized = true;
+    } catch (error) {
+      console.error("❌ MEMORY ERROR: Failure to stabilize neural bridge:", error);
+      // We don't block the request here, but we log the failure.
+    }
+  }
+  next();
+};
+
+// Apply initialization to all routes
+app.use(initializeMemory);
+
 // Apply authentication to all non-public routes
 app.use('/api', authenticate);
 app.use('/sse', authenticate);
 app.use('/messages', authenticate);
 
-// Initialize the Database
-setupDB();
-seedDream();
 
 // -----------------------------------------------------------------------------
 // 🧠 MCP Server Initialization (The Neural Port)
