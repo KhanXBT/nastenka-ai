@@ -28,6 +28,7 @@ interface StrategicRule {
 
 const app = express();
 const port = process.env.PORT || 3001;
+
 // --- Lazy Resend Initialization ---
 let resendInstance: Resend | null = null;
 function getResend() {
@@ -55,43 +56,38 @@ const authenticate = (req: express.Request, res: express.Response, next: express
   const providedQueryKey = req.query.key as string;
 
   if (!sovereignKey) {
-    // If no key is set in .env, we DENY access to ensure sovereignty
-    console.error('❌ SECURITY ALERT: No NASTENKA_API_KEY set in .env. Access denied by default.');
-    return res.status(500).json({ error: 'Sovereign Hub Error: Security key not configured on server.' });
+    console.error('❌ SECURITY ALERT: No NASTENKA_API_KEY set. Access denied.');
+    return res.status(500).json({ error: 'Sovereign Hub Error: Security key missing.' });
   }
 
   if (providedHeaderKey !== sovereignKey && providedQueryKey !== sovereignKey) {
-    return res.status(401).json({ error: 'Unauthorized: Sovereign Key required (via header or ?key=).' });
+    return res.status(401).json({ error: 'Unauthorized: Sovereign Key required.' });
   }
   next();
 };
 
-// --- Lazy Database Initialization Middleware ---
+// --- Memory Initialization ---
 let isMemoryInitialized = false;
 const initializeMemory = (req: express.Request, res: express.Response, next: express.NextFunction) => {
   if (!isMemoryInitialized) {
-    console.log("🌑 Nastenka: Waking up neural memory for the first time...");
+    console.log("🌑 Nastenka: Waking up neural memory...");
     try {
       setupDB();
       seedDream();
       isMemoryInitialized = true;
     } catch (error) {
-      console.error("❌ MEMORY ERROR: Failure to stabilize neural bridge:", error);
-      // We don't block the request here, but we log the failure.
+      console.error("❌ MEMORY ERROR:", error);
     }
   }
   next();
 };
 
-// Apply initialization to all routes
 app.use(initializeMemory);
 
 // --- Public Routes ---
 app.post("/api/waitlist", async (req, res) => {
   const { email } = req.body;
-  if (!email) {
-    return res.status(400).json({ error: "Identity proxy missing (email)." });
-  }
+  if (!email) return res.status(400).json({ error: "Email missing." });
   saveWaitlistEmail(email);
   
   const resend = getResend();
@@ -100,166 +96,158 @@ app.post("/api/waitlist", async (req, res) => {
       await resend.emails.send({
         from: 'Nastenka AI <onboarding@resend.dev>',
         to: 'nastenka.ai.contact@gmail.com',
-        subject: '🌑 NEURAL RECEPTION: New Seeker Archive Request',
-        html: `<p>A new identity proxy has requested access to the Nastenka AI Sovereign Hub: <strong>${email}</strong></p>`,
+        subject: '🌑 NEURAL RECEPTION: New Seeker',
+        html: `<p>New identity proxy: <strong>${email}</strong></p>`,
       });
-      console.log(`🌑 NEURAL RECEPTION: New seeker recorded and notification sent for: ${email}`);
+      console.log(`🌑 NEURAL RECEPTION: Recorded ${email}`);
     } catch (error) {
-      console.error('❌ Email notification failed:', error);
+      console.error('❌ Email failed:', error);
     }
-  } else {
-    console.log(`🌑 NEURAL RECEPTION: New seeker recorded (Notification skipped): ${email}`);
   }
-  
-  res.json({ message: "Resonance Captured: You are now a seeker in the archive." });
+  res.json({ message: "Resonance Captured: Seek the White Nights." });
 });
 
-// --- Sovereign Authenticated Routes ---
+// --- Sovereign Routes ---
 app.use('/api', authenticate);
 app.use('/sse', authenticate);
 app.use('/messages', authenticate);
 
-
 // -----------------------------------------------------------------------------
-// 🧠 MCP Server Initialization (The Neural Port)
+// 🧠 MCP Server Factory (Isolated per Connection)
 // -----------------------------------------------------------------------------
-const mcpServer = new McpServer({
-  name: "Nastenka-AI",
-  version: "1.0.0",
-});
+function createNastenkaServer() {
+  const server = new McpServer({
+    name: "Nastenka-AI",
+    version: "1.0.0",
+  });
 
-// TOOL: Witness Flow
-mcpServer.tool(
-  "witness_flow",
-  "Record current intent & context.",
-  {
-    projectName: z.string().describe("Project name"),
-    modelId: z.string().describe("LLM ID"),
-    intent: z.string().describe("Current goal/intent"),
-    context: z.string().describe("Critical context snippet"),
-    syncToFilecoin: z.boolean().optional().describe("Sync to Filecoin?"),
-  },
-  async ({ projectName, modelId, intent, context, syncToFilecoin }) => {
-    saveSynapse(projectName, 'intent', intent);
-    saveSynapse(projectName, 'context', context);
-    saveSynapse(projectName, 'identity', `Model: ${modelId}`);
-    
-    let filecoinCid = "LOCAL_ONLY";
-    if (syncToFilecoin) {
-      try {
-        const cid = await uploadToFilecoin({ projectName, modelId, intent, context });
-        filecoinCid = cid.toString();
-      } catch (e) {
-        console.error("Filecoin Upload Synapse Error:", e);
+  server.tool(
+    "witness_flow",
+    "Record current intent & context.",
+    {
+      projectName: z.string().describe("Project name"),
+      modelId: z.string().describe("LLM ID"),
+      intent: z.string().describe("Current goal/intent"),
+      context: z.string().describe("Critical context snippet"),
+      syncToFilecoin: z.boolean().optional().describe("Sync to Filecoin?"),
+    },
+    async ({ projectName, modelId, intent, context, syncToFilecoin }) => {
+      saveSynapse(projectName, 'intent', intent);
+      saveSynapse(projectName, 'context', context);
+      saveSynapse(projectName, 'identity', `Model: ${modelId}`);
+      
+      let filecoinCid = "LOCAL_ONLY";
+      if (syncToFilecoin) {
+        try {
+          const cid = await uploadToFilecoin({ projectName, modelId, intent, context });
+          filecoinCid = cid.toString();
+        } catch (e) {
+          console.error("Filecoin Synapse Error:", e);
+        }
       }
-    }
 
-    return {
-      content: [{ 
-        type: "text", 
-        text: `Nastenka has witnessed the flow for '${projectName}'.\nSynapse recorded.\nFilecoin Proof: ${filecoinCid}` 
-      }],
-    };
-  }
-);
-
-// TOOL: Mark Strategic Decision
-mcpServer.tool(
-  "mark_strategic_decision",
-  "Lock a permanent project rule.",
-  {
-    projectName: z.string().describe("Project name"),
-    decisionName: z.string().describe("Decision name (e.g. 'DB')"),
-    rationale: z.string().describe("Rationale"),
-  },
-  async ({ projectName, decisionName, rationale }) => {
-    saveStrategicDecision(projectName, decisionName, rationale);
-    return {
-      content: [{ type: "text", text: `Strategic decision '${decisionName}' has been locked by Nastenka for '${projectName}'.` }],
-    };
-  }
-);
-
-// TOOL: Resurrect Brain
-mcpServer.tool(
-  "resurrect_brain",
-  "Retrieve project grounding.",
-  {
-    projectName: z.string().describe("Project to resurrect"),
-  },
-  async ({ projectName }) => {
-    const data = getProjectGrounding(projectName) as { rules: StrategicRule[], latestSynapses: any[] };
-    const latestSynapse = data.latestSynapses[0];
-    
-    if (!latestSynapse && data.rules.length === 0) {
       return {
-        content: [{ type: "text", text: `Nastenka has no memory of a project named '${projectName}'.` }],
+        content: [{ 
+          type: "text", 
+          text: `Nastenka has witnessed the flow for '${projectName}'.\nFilecoin Proof: ${filecoinCid}` 
+        }],
       };
     }
+  );
 
-    const rulesStr = data.rules.map((r: StrategicRule) => `- ${r.decision_name}: ${r.rationale}`).join("\n");
-    const synapseStr = latestSynapse 
-      ? `\nLATEST INTENT: ${latestSynapse.intent || latestSynapse.content}`
-      : "";
+  server.tool(
+    "mark_strategic_decision",
+    "Lock a permanent project rule.",
+    {
+      projectName: z.string().describe("Project name"),
+      decisionName: z.string().describe("Decision name"),
+      rationale: z.string().describe("Rationale"),
+    },
+    async ({ projectName, decisionName, rationale }) => {
+      saveStrategicDecision(projectName, decisionName, rationale);
+      return {
+        content: [{ type: "text", text: `Strategic decision '${decisionName}' has been locked.` }],
+      };
+    }
+  );
 
-    return {
-      content: [{ type: "text", text: `NASTENKA RESURRECTION PAYLOAD for '${projectName}':\n\nSTRATEGIC RULES:\n${rulesStr}\n${synapseStr}` }],
-    };
-  }
-);
+  server.tool(
+    "resurrect_brain",
+    "Retrieve project grounding.",
+    {
+      projectName: z.string().describe("Project to resurrect"),
+    },
+    async ({ projectName }) => {
+      const data = getProjectGrounding(projectName) as { rules: StrategicRule[], latestSynapses: any[] };
+      const latestSynapse = data.latestSynapses[0];
+      
+      if (!latestSynapse && data.rules.length === 0) {
+        return { content: [{ type: "text", text: `Nastenka has no memory of '${projectName}'.` }] };
+      }
+
+      const rulesStr = data.rules.map((r: StrategicRule) => `- ${r.decision_name}: ${r.rationale}`).join("\n");
+      const synapseStr = latestSynapse ? `\nLATEST INTENT: ${latestSynapse.intent || latestSynapse.content}` : "";
+
+      return {
+        content: [{ type: "text", text: `NASTENKA RESURRECTION PAYLOAD for '${projectName}':\n\nSTRATEGIC RULES:\n${rulesStr}\n${synapseStr}` }],
+      };
+    }
+  );
+
+  return server;
+}
 
 // -----------------------------------------------------------------------------
-// 🌐 SSE Transport Logic
+// 🌐 Session-Aware SSE Transport Logic
 // -----------------------------------------------------------------------------
-let transport: SSEServerTransport;
+const sessions = new Map<string, SSEServerTransport>();
 
 app.get("/sse", async (req, res) => {
-  console.log("Nastenka: Establishing Real-time SSE Handshake...");
-  transport = new SSEServerTransport("/messages", res);
-  await mcpServer.connect(transport);
-});
+  console.log("Nastenka: Establishing New Real-time Session...");
+  
+  const server = createNastenkaServer();
+  const transport = new SSEServerTransport("/messages", res);
+  
+  // Connect and store by session ID to prevent collisions
+  await server.connect(transport);
+  
+  const sessionId = transport.sessionId;
+  sessions.set(sessionId, transport);
+  
+  console.log(`🌑 NEURAL CONNECTIVITY: New session started: ${sessionId}`);
 
-app.post("/messages", async (req, res) => {
-  console.log("Nastenka: Processing Neural Message...");
-  if (transport) {
-    await transport.handlePostMessage(req, res);
-  } else {
-    res.status(400).json({ error: "No active SSE transport found." });
-  }
-});
-
-// -----------------------------------------------------------------------------
-// 🏛️ Legacy REST API for Dashboard
-// -----------------------------------------------------------------------------
-app.get('/api/synapses/:project', (req, res) => {
-  const projectName = req.params.project;
-  const data = getProjectGrounding(projectName);
-  res.json(data);
-});
-
-app.post("/api/synapses", (req, res) => {
-  const { project, type, content } = req.body;
-  if (!project || !type || !content) {
-    return res.status(400).json({ error: "Context depth insufficient (missing fields)." });
-  }
-  saveSynapse(project, type, content);
-  res.json({ message: "Witnessed: Context added to sovereign ledger." });
-});
-
-
-app.get("/api/admin/waitlist", (req, res) => {
-  const seekers = getWaitlist();
-  res.json({ 
-    message: "Archive Witnessed: Seekers retrieval successful.",
-    seekers 
+  res.on('close', () => {
+    console.log(`🌑 NEURAL CONNECTIVITY: Session closing: ${sessionId}`);
+    sessions.delete(sessionId);
+    // Note: We could call server.close() if needed, but cleanup is usually handled by transport close
   });
 });
 
-// Only start the server if we're not in a serverless environment
+app.post("/messages", async (req, res) => {
+  const sessionId = req.query.sessionId as string;
+  const transport = sessions.get(sessionId);
+
+  if (!transport) {
+    console.error(`❌ NEURAL ERROR: Session not found: ${sessionId}`);
+    return res.status(404).json({ error: "Session expired or not found." });
+  }
+
+  await transport.handlePostMessage(req, res);
+});
+
+// -----------------------------------------------------------------------------
+// 🏛️ Dashboard Support
+// -----------------------------------------------------------------------------
+app.get('/api/synapses/:project', (req, res) => {
+  res.json(getProjectGrounding(req.params.project));
+});
+
+app.get("/api/admin/waitlist", (req, res) => {
+  res.json({ seekers: getWaitlist() });
+});
+
 if (process.env.NODE_ENV !== 'production' || process.env.VERCEL !== '1') {
   app.listen(port, () => {
-    console.error(`Nastenka AI Unified Intelligence Hub running at: http://localhost:${port}`);
-    console.error(`- REST API: /api/synapses/:project`);
-    console.error(`- MCP SSE Root: /sse`);
+    console.error(`Nastenka AI Hub active: http://localhost:${port}`);
   });
 }
