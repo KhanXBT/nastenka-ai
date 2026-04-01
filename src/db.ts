@@ -70,4 +70,8 @@ export function saveWaitlistEmail(email: string) {
   return stmt.run(email);
 }
 
+export function getWaitlist() {
+  return db.prepare("SELECT * FROM waitlist ORDER BY created_at DESC").all();
+}
+
 export default db;

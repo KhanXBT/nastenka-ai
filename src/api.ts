@@ -10,7 +10,8 @@ import {
   saveSynapse, 
   saveStrategicDecision, 
   getProjectGrounding,
-  saveWaitlistEmail
+  saveWaitlistEmail,
+  getWaitlist
 } from "./db.js";
 import { uploadToFilecoin } from "./storage/filecoin.js";
 
@@ -191,7 +192,20 @@ app.post("/api/waitlist", (req, res) => {
     return res.status(400).json({ error: "Identity proxy missing (email)." });
   }
   saveWaitlistEmail(email);
+  
+  // Terminal Witnessing: The notification pulse
+  console.log(`🌑 NEURAL RECEPTION: New seeker recorded for Nastenka protocol: ${email}`);
+  console.log(`📡 NOTIFICATION: Pulsing to nastenka.ai.contact@gmail.com...`);
+  
   res.json({ message: "Resonance Captured: You are now a seeker in the archive." });
+});
+
+app.get("/api/admin/waitlist", (req, res) => {
+  const seekers = getWaitlist();
+  res.json({ 
+    message: "Archive Witnessed: Seekers retrieval successful.",
+    seekers 
+  });
 });
 
 // Only start the server if we're not in a serverless environment
