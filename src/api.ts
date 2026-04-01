@@ -205,8 +205,11 @@ const sessions = new Map<string, SSEServerTransport>();
 app.get("/sse", async (req, res) => {
   console.log("Nastenka: Establishing New Real-time Session...");
   
+  const sovereignKey = process.env.NASTENKA_API_KEY;
   const server = createNastenkaServer();
-  const transport = new SSEServerTransport("/messages", res);
+  
+  // Inject the key into the message port so ChatGPT is automatically authenticated for its pulses
+  const transport = new SSEServerTransport(`/messages?key=${sovereignKey}`, res);
   
   // Connect and store by session ID to prevent collisions
   await server.connect(transport);
