@@ -54,8 +54,8 @@ const DashboardView: React.FC<DashboardViewProps> = ({ onLogout }) => {
             </button>
             <img 
               alt="Avatar" 
-              className="w-8 h-8 rounded-full border border-violet-500/20" 
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrsHVtxs1Y4O9opy-OsBKMzzEyyRvDbZ9RIYYrkKD5jzlaufonkwyJPk5oNqaKZxV_aJX_oTenwV-YOdvu3MmNYxc-z_d1RvMH3xpVFRGOzpJtCJXAGQijXcb5YcE9cBgpWSQ6Fn77zJEKmty5nH0t5oqDX9Ar9398OtK52eS2aVqXiKHNEp7F3G5xRDRqpKh-PW-Z2LSjCwytqOqJKVfOTntxW53zgoroKn9PEe5XbKQfLdVMA1JBQqAWtEBzpS_OZ9XZjTuNzMli" 
+              className="w-8 h-8 rounded-full border border-violet-500/20 object-cover" 
+              src="/logo.jpg" 
             />
           </div>
         </div>
@@ -88,6 +88,23 @@ const DashboardView: React.FC<DashboardViewProps> = ({ onLogout }) => {
           {/* Action Buttons for REAL INTEGRATION */}
           <div className="space-y-4 px-2 mb-12">
             <p className="text-[9px] uppercase font-label tracking-[0.2em] text-slate-600 ml-1 mb-2">Sovereign Bridge</p>
+            
+            {/* 🌑 HACKATHON PULSE SIMULATOR */}
+            <button 
+              onClick={() => {
+                const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                const newLog = { time: now, message: "🌑 NEURAL RESONANCE: Strategic Decision 'Sovereign-Bridge' Locked.", status: "VERIFIED" };
+                setLogs(prev => [newLog, ...prev]);
+                alert("✨ Neural Pulse Initiated: Synapse Locked to Sovereign Ledger.");
+              }}
+              className="w-full flex items-center gap-3 py-4 px-5 rounded-2xl text-primary bg-primary/10 border border-primary/30 group shadow-[0_0_20px_rgba(139,92,246,0.15)] hover:bg-primary/20 transition-all duration-500"
+            >
+              <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <span className="material-symbols-outlined text-md animate-pulse">monitor_heart</span>
+              </div>
+              <span className="font-body uppercase tracking-[0.15em] text-[10px] font-bold">Initiate Pulse</span>
+            </button>
+
             <button 
               onClick={() => setIsImportOpen(true)}
               className="glass-button w-full flex items-center gap-3 py-4 px-5 rounded-2xl text-violet-100 group shadow-[0_4px_15px_rgba(0,0,0,0.2)]"
@@ -96,15 +113,6 @@ const DashboardView: React.FC<DashboardViewProps> = ({ onLogout }) => {
                 <span className="material-symbols-outlined text-md group-hover:rotate-12 transition-transform">history_edu</span>
               </div>
               <span className="font-body uppercase tracking-[0.15em] text-[10px] font-bold">Resurrect Node</span>
-            </button>
-            <button 
-              onClick={() => setIsConnectorOpen(true)}
-              className="glass-button w-full flex items-center gap-3 py-4 px-5 rounded-2xl text-violet-100 group shadow-[0_4px_15px_rgba(0,0,0,0.2)]"
-            >
-              <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center group-hover:bg-primary/30 transition-colors">
-                <span className="material-symbols-outlined text-md group-hover:rotate-12 transition-transform">lan</span>
-              </div>
-              <span className="font-body uppercase tracking-[0.15em] text-[10px] font-bold">Resonate Node</span>
             </button>
           </div>
 

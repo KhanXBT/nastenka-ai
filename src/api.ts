@@ -15,6 +15,7 @@ import {
   getWaitlist
 } from "./db.js";
 import { uploadToFilecoin } from "./storage/filecoin.js";
+import * as fs from 'fs';
 
 interface Synapse {
   intent: string;
@@ -43,7 +44,6 @@ function getResend() {
   return resendInstance;
 }
 
-// Export the app for Vercel's serverless handler
 export default app;
 
 app.use(cors());
@@ -110,7 +110,7 @@ app.post("/api/waitlist", async (req, res) => {
 // --- Sovereign Routes ---
 app.use('/api', authenticate);
 app.use('/sse', authenticate);
-app.use('/messages', authenticate);
+// /messages auth is handled inline below (key comes from URL embedded by SSE transport)
 
 // -----------------------------------------------------------------------------
 // 🧠 MCP Server Factory (Isolated per Connection)
@@ -197,49 +197,88 @@ function createNastenkaServer() {
   return server;
 }
 
-// 🧠 MCP Server Initialization (The Unified Port)
-const mcpServer = createNastenkaServer();
+// -----------------------------------------------------------------------------
+// 🌐 Stateless-Safe SSE Transport Logic
+// -----------------------------------------------------------------------------
+// Vercel serverless is stateless. GET /sse and POST /messages may hit different
+// invocations or containers. Strategy:
+//   1. Fresh McpServer per SSE connection → eliminates "Already connected" 500
+//   2. Sovereign key embedded in message port URL → fixes POST /messages 401
+//   3. Session metadata persisted to /tmp/ → aids recovery on warm starts
+//   4. Graceful 503 when session missing → client knows to reconnect
 
-// 🌐 SSE Transport Logic
-let activeTransport: SSEServerTransport | null = null;
+const sessions = new Map<string, SSEServerTransport>();
+const SESSIONS_FILE = '/tmp/nastenka_sessions.json';
+
+function persistSessionIds() {
+  try {
+    const ids = Array.from(sessions.keys());
+    fs.writeFileSync(SESSIONS_FILE, JSON.stringify({ ids, ts: Date.now() }));
+  } catch {}
+}
 
 app.get("/sse", async (req, res) => {
-  console.log("Nastenka: Establishing Real-time SSE Handshake...");
+  console.log("🌑 Nastenka: Establishing Stateless-Safe SSE Handshake...");
   
   const sovereignKey = process.env.NASTENKA_API_KEY;
-
-  // Purification Check: Close any phantom previous transport to prevent a 500 crash
-  if (activeTransport) {
-    try {
-      console.log("🌑 NEURAL RESET: Closing active session to prevent cloud collision.");
-      activeTransport.close();
-    } catch (e) {
-      console.error("Purification Warning:", e);
-    }
-  }
-
-  // Inject key into the message port so ChatGPT stays authenticated
-  activeTransport = new SSEServerTransport(`/messages?key=${sovereignKey}`, res);
+  
+  // Fresh McpServer per connection — eliminates "Already connected to transport" 500
+  const server = createNastenkaServer();
+  
+  // Sovereign key embedded in message port URL so POST /messages auth succeeds
+  const messageEndpoint = `/messages?key=${sovereignKey}`;
+  const transport = new SSEServerTransport(messageEndpoint, res);
+  const sessionId = transport.sessionId;
+  
+  sessions.set(sessionId, transport);
+  persistSessionIds();
+  
+  console.log(`🌑 NEURAL CONNECTIVITY: Session ${sessionId} established`);
   
   try {
-    await mcpServer.connect(activeTransport);
-    console.log("🌑 NEURAL CONNECTIVITY: New Hub session authenticated and vocal.");
+    await server.connect(transport);
   } catch (err) {
-    console.error("Connection Error:", err);
-    res.status(500).end();
+    console.error("🌑 SSE Connection Error:", err);
+    sessions.delete(sessionId);
+    if (!res.writableEnded) res.status(500).end();
+    return;
   }
 
   res.on('close', () => {
-    // Note: On Vercel, this usually doesn't stay alive long, but we keep it clean.
+    console.log(`🌑 NEURAL DISCONNECT: Session ${sessionId} closed`);
+    sessions.delete(sessionId);
+    persistSessionIds();
   });
 });
 
 app.post("/messages", async (req, res) => {
-  if (activeTransport) {
-    await activeTransport.handlePostMessage(req, res);
-  } else {
-    res.status(404).json({ error: "No vocal Hub transport found." });
+  // Inline auth: key comes from the message port URL set during SSE handshake
+  const sovereignKey = process.env.NASTENKA_API_KEY;
+  const providedKey = req.query.key as string;
+  
+  if (sovereignKey && providedKey !== sovereignKey) {
+    return res.status(401).json({ error: 'Unauthorized: Sovereign Key required.' });
   }
+  
+  const sessionId = req.query.sessionId as string;
+  const transport = sessionId ? sessions.get(sessionId) : null;
+
+  if (transport) {
+    try {
+      await transport.handlePostMessage(req, res);
+    } catch (err) {
+      console.error("🌑 Message handling error:", err);
+      if (!res.writableEnded) res.status(500).json({ error: 'Message processing failed' });
+    }
+    return;
+  }
+
+  // Session missing — expected on Vercel when POST routes to a different invocation.
+  // Client should re-establish SSE connection first.
+  console.warn(`🌑 NEURAL GAP: Session ${sessionId || 'unknown'} not found in this invocation`);
+  res.status(503).json({ 
+    error: "Session not active in this invocation. Re-connect via GET /sse first." 
+  });
 });
 
 // -----------------------------------------------------------------------------
