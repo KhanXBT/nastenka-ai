@@ -16,11 +16,11 @@
   ],
   "rewrites": [
     {
-      "source": "/sse",
+      "source": "/api/(.*)",
       "destination": "/src/api.ts"
     },
     {
-      "source": "/api/(.*)",
+      "source": "/sse",
       "destination": "/src/api.ts"
     },
     {

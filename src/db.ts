@@ -1,7 +1,11 @@
 import Database from "better-sqlite3";
 import path from "path";
 
-const dbPath = path.join(process.cwd(), "nastenka_brain.db");
+const IS_VERCEL = process.env.VERCEL === "1";
+const dbPath = IS_VERCEL 
+  ? path.join("/tmp", "nastenka_brain.db") 
+  : path.join(process.cwd(), "nastenka_brain.db");
+
 const db = new Database(dbPath);
 
 export function setupDB() {
