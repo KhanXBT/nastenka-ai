@@ -4,6 +4,7 @@ import 'dotenv/config';
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
 import { z } from "zod";
+import { seedDream } from './seed.js';
 import { setupDB, saveSynapse, saveStrategicDecision, getProjectGrounding } from './db.js';
 import { uploadToFilecoin } from "./storage/filecoin.js";
 
@@ -50,6 +51,7 @@ app.use('/messages', authenticate);
 
 // Initialize the Database
 setupDB();
+seedDream();
 
 // -----------------------------------------------------------------------------
 // 🧠 MCP Server Initialization (The Neural Port)
@@ -71,7 +73,9 @@ mcpServer.tool(
     syncToFilecoin: z.boolean().optional().describe("Sync to Filecoin?"),
   },
   async ({ projectName, modelId, intent, context, syncToFilecoin }) => {
-    saveSynapse(projectName, modelId, intent, context);
+    saveSynapse(projectName, 'intent', intent);
+    saveSynapse(projectName, 'context', context);
+    saveSynapse(projectName, 'identity', `Model: ${modelId}`);
     
     let filecoinCid = "LOCAL_ONLY";
     if (syncToFilecoin) {
@@ -117,17 +121,18 @@ mcpServer.tool(
     projectName: z.string().describe("Project to resurrect"),
   },
   async ({ projectName }) => {
-    const data = getProjectGrounding(projectName) as { rules: StrategicRule[], latestSynapse: Synapse | undefined };
+    const data = getProjectGrounding(projectName) as { rules: StrategicRule[], latestSynapses: any[] };
+    const latestSynapse = data.latestSynapses[0];
     
-    if (!data.latestSynapse && data.rules.length === 0) {
+    if (!latestSynapse && data.rules.length === 0) {
       return {
         content: [{ type: "text", text: `Nastenka has no memory of a project named '${projectName}'.` }],
       };
     }
 
     const rulesStr = data.rules.map((r: StrategicRule) => `- ${r.decision_name}: ${r.rationale}`).join("\n");
-    const synapseStr = data.latestSynapse 
-      ? `\nLATEST INTENT: ${data.latestSynapse.intent}\nLATEST CONTEXT: ${data.latestSynapse.context_snippet}`
+    const synapseStr = latestSynapse 
+      ? `\nLATEST INTENT: ${latestSynapse.intent || latestSynapse.content}`
       : "";
 
     return {
@@ -166,12 +171,13 @@ app.get('/api/synapses/:project', (req, res) => {
 });
 
 app.post('/api/synapses', (req, res) => {
-  const { projectName, modelId, intent, context } = req.body;
-  if (!projectName || !modelId || !intent || !context) {
+  const { projectName, intent, context } = req.body;
+  if (!projectName || !intent || !context) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
-  const result = saveSynapse(projectName, modelId, intent, context);
-  res.json({ success: true, id: result.lastInsertRowid });
+  saveSynapse(projectName, 'intent', intent);
+  saveSynapse(projectName, 'context', context);
+  res.json({ status: 'resonant' });
 });
 
 // Only start the server if we're not in a serverless environment

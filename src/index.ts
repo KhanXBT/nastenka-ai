@@ -35,7 +35,9 @@ server.tool(
     syncToFilecoin: z.boolean().optional().describe("Whether to anchor this synapse on Filecoin"),
   },
   async ({ projectName, modelId, intent, context, syncToFilecoin }) => {
-    saveSynapse(projectName, modelId, intent, context);
+    saveSynapse(projectName, 'intent', intent);
+    saveSynapse(projectName, 'context', context);
+    saveSynapse(projectName, 'identity', `Model: ${modelId}`);
     
     let filecoinCid = "LOCAL_ONLY";
     if (syncToFilecoin) {
@@ -79,17 +81,18 @@ server.tool(
     projectName: z.string().describe("The project name to resurrect"),
   },
   async ({ projectName }) => {
-    const data = getProjectGrounding(projectName) as { rules: StrategicRule[], latestSynapse: Synapse | undefined };
+    const data = getProjectGrounding(projectName) as { rules: StrategicRule[], latestSynapses: any[] };
+    const latestSynapse = data.latestSynapses[0];
     
-    if (!data.latestSynapse && data.rules.length === 0) {
+    if (!latestSynapse && data.rules.length === 0) {
       return {
         content: [{ type: "text", text: `Nastenka has no memory of a project named '${projectName}'.` }],
       };
     }
 
     const rulesStr = data.rules.map((r: StrategicRule) => `- ${r.decision_name}: ${r.rationale}`).join("\n");
-    const synapseStr = data.latestSynapse 
-      ? `\nLATEST INTENT: ${data.latestSynapse.intent}\nLATEST CONTEXT: ${data.latestSynapse.context_snippet}`
+    const synapseStr = latestSynapse 
+      ? `\nLATEST INTENT: ${latestSynapse.intent || latestSynapse.content}`
       : "";
 
     return {

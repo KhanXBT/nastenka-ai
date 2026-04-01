@@ -6,46 +6,53 @@ const db = new Database(dbPath);
 
 export function setupDB() {
   db.exec(`
+    CREATE TABLE IF NOT EXISTS projects (
+      id TEXT PRIMARY KEY,
+      name TEXT,
+      description TEXT,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+
     CREATE TABLE IF NOT EXISTS synapses (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-      model_id TEXT,
-      project_name TEXT,
-      intent TEXT,
-      context_snippet TEXT,
-      is_snapshot INTEGER DEFAULT 1
+      project TEXT,
+      type TEXT, -- 'intent', 'architecture', 'decision', 'identity'
+      content TEXT,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY(project) REFERENCES projects(id)
     );
 
     CREATE TABLE IF NOT EXISTS strategic_rules (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      project_name TEXT,
-      decision_name TEXT,
+      project TEXT,
+      decision TEXT,
       rationale TEXT,
       status TEXT DEFAULT 'LOCKED',
-      timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY(project) REFERENCES projects(id)
     );
   `);
 }
 
-export function saveSynapse(projectName: string, modelId: string, intent: string, context: string) {
+export function saveSynapse(project: string, type: string, content: string) {
   const stmt = db.prepare(
-    "INSERT INTO synapses (project_name, model_id, intent, context_snippet) VALUES (?, ?, ?, ?)"
+    "INSERT INTO synapses (project, type, content) VALUES (?, ?, ?)"
   );
-  return stmt.run(projectName, modelId, intent, context);
+  return stmt.run(project, type, content);
 }
 
-export function saveStrategicDecision(projectName: string, decision: string, rationale: string) {
+export function saveStrategicDecision(project: string, decision: string, rationale: string) {
   const stmt = db.prepare(
-    "INSERT INTO strategic_rules (project_name, decision_name, rationale) VALUES (?, ?, ?)"
+    "INSERT INTO strategic_rules (project, decision, rationale) VALUES (?, ?, ?)"
   );
-  return stmt.run(projectName, decision, rationale);
+  return stmt.run(project, decision, rationale);
 }
 
-export function getProjectGrounding(projectName: string) {
-  const rules = db.prepare("SELECT * FROM strategic_rules WHERE project_name = ?").all(projectName);
-  const latestSynapse = db.prepare("SELECT * FROM synapses WHERE project_name = ? ORDER BY timestamp DESC LIMIT 1").get(projectName);
+export function getProjectGrounding(project: string) {
+  const rules = db.prepare("SELECT * FROM strategic_rules WHERE project = ?").all(project);
+  const latestSynapses = db.prepare("SELECT * FROM synapses WHERE project = ? ORDER BY created_at DESC").all(project);
   
-  return { rules, latestSynapse };
+  return { rules, latestSynapses };
 }
 
 export default db;

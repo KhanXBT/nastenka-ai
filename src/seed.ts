@@ -1,39 +1,65 @@
-import { setupDB, saveSynapse, saveStrategicDecision } from './db.js';
+import Database from 'better-sqlite3';
+import path from 'path';
 
-async function seed() {
-  console.log('Seeding Nastenka AI "Witness" Brain...');
-  setupDB();
+const dbPath = path.join(process.cwd(), 'nastenka_brain.db');
+const db = new Database(dbPath);
 
-  const projectName = 'Nas AI';
+export function seedDream() {
+  console.log("🌑 Nastenka: Seeding the White Nights dream for the world to witness...");
+
+  // 1. Create a Demo Project
+  db.prepare(`
+    INSERT OR IGNORE INTO projects (id, name, description)
+    VALUES (?, ?, ?)
+  `).run(
+    'white-nights-demo', 
+    'Project: White Nights', 
+    'A sovereign intelligence map exploring Dostoevsky\'s dream space and the Resurrection of Context.'
+  );
+
+  // 2. Seed Cognitive Synapses (Decisions/Architectures)
+  const synapses = [
+    {
+      project: 'white-nights-demo',
+      type: 'architecture',
+      content: 'The "Ghost Context" Principle: Every AI platform is a silo. Nastenka acts as the bridge.'
+    },
+    {
+      project: 'white-nights-demo',
+      type: 'decision',
+      content: 'Adopted Model Context Protocol (MCP) as the universal neural bridge for model-agnosticism.'
+    },
+    {
+      project: 'white-nights-demo',
+      type: 'intent',
+      content: 'Mission: To ensure a user\'s cognitive architecture never resets when they hit a token limit.'
+    },
+    {
+      project: 'white-nights-demo',
+      type: 'identity',
+      content: 'Behavioral Fingerprint: Soulful, analytical, and persistent. Inspired by Nastenka\'s witnessing role.'
+    }
+  ];
+
+  const insertSynapse = db.prepare(`
+    INSERT INTO synapses (project, type, content)
+    VALUES (?, ?, ?)
+  `);
+
+  // Only seed if empty to avoid bloat
+  const count = db.prepare('SELECT COUNT(*) as count FROM synapses WHERE project = ?').get('white-nights-demo') as any;
   
-  // Save Synapses
-  saveSynapse(
-    projectName, 
-    'Antigravity-G3', 
-    'Scaffolding the Neural Interconnect', 
-    'Successfully implemented the MCP server, SQLite database, and Filecoin Synapse SDK integration for context sovereignty.'
-  );
-
-  // Save Strategic Decisions
-  saveStrategicDecision(
-    projectName, 
-    'Sovereign Storage', 
-    'Decided on a dual-layer approach: Local-first for privacy and Filecoin-second for immutable resilience.'
-  );
-
-  saveStrategicDecision(
-    projectName, 
-    'MCP Neural Port', 
-    'Adopted the Model Context Protocol as the universal bridge to ensure context survives across Gemini, Claude, and ChatGPT.'
-  );
-
-  saveStrategicDecision(
-    projectName, 
-    'White Nights Aesthetic', 
-    'Adopted a soulful, minimalist design inspired by Dostoevsky to emphasize the "Anastasis" (Resurrection) of human thought.'
-  );
-
-  console.log('Nastenka has witnessed the seed. Brain is primed.');
+  if (count.count === 0) {
+    for (const s of synapses) {
+      insertSynapse.run(s.project, s.type, s.content);
+    }
+    console.log("✨ Seed successful. The dream is live.");
+  } else {
+    console.log("📡 Resonance already present. Skipping seed.");
+  }
 }
 
-seed().catch(console.error);
+// Auto-run if executed directly
+if (process.argv[1] === import.meta.url) {
+  seedDream();
+}
