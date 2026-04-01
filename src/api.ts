@@ -85,7 +85,35 @@ const initializeMemory = (req: express.Request, res: express.Response, next: exp
 // Apply initialization to all routes
 app.use(initializeMemory);
 
-// Apply authentication to all non-public routes
+// --- Public Routes ---
+app.post("/api/waitlist", async (req, res) => {
+  const { email } = req.body;
+  if (!email) {
+    return res.status(400).json({ error: "Identity proxy missing (email)." });
+  }
+  saveWaitlistEmail(email);
+  
+  const resend = getResend();
+  if (resend) {
+    try {
+      await resend.emails.send({
+        from: 'Nastenka AI <onboarding@resend.dev>',
+        to: 'nastenka.ai.contact@gmail.com',
+        subject: '🌑 NEURAL RECEPTION: New Seeker Archive Request',
+        html: `<p>A new identity proxy has requested access to the Nastenka AI Sovereign Hub: <strong>${email}</strong></p>`,
+      });
+      console.log(`🌑 NEURAL RECEPTION: New seeker recorded and notification sent for: ${email}`);
+    } catch (error) {
+      console.error('❌ Email notification failed:', error);
+    }
+  } else {
+    console.log(`🌑 NEURAL RECEPTION: New seeker recorded (Notification skipped): ${email}`);
+  }
+  
+  res.json({ message: "Resonance Captured: You are now a seeker in the archive." });
+});
+
+// --- Sovereign Authenticated Routes ---
 app.use('/api', authenticate);
 app.use('/sse', authenticate);
 app.use('/messages', authenticate);
@@ -217,32 +245,6 @@ app.post("/api/synapses", (req, res) => {
   res.json({ message: "Witnessed: Context added to sovereign ledger." });
 });
 
-app.post("/api/waitlist", async (req, res) => {
-  const { email } = req.body;
-  if (!email) {
-    return res.status(400).json({ error: "Identity proxy missing (email)." });
-  }
-  saveWaitlistEmail(email);
-  
-  const resend = getResend();
-  if (resend) {
-    try {
-      await resend.emails.send({
-        from: 'Nastenka AI <onboarding@resend.dev>',
-        to: 'nastenka.ai.contact@gmail.com',
-        subject: '🌑 NEURAL RECEPTION: New Seeker Archive Request',
-        html: `<p>A new identity proxy has requested access to the Nastenka AI Sovereign Hub: <strong>${email}</strong></p>`,
-      });
-      console.log(`🌑 NEURAL RECEPTION: New seeker recorded and notification sent for: ${email}`);
-    } catch (error) {
-      console.error('❌ Email notification failed:', error);
-    }
-  } else {
-    console.log(`🌑 NEURAL RECEPTION: New seeker recorded (Notification skipped): ${email}`);
-  }
-  
-  res.json({ message: "Resonance Captured: You are now a seeker in the archive." });
-});
 
 app.get("/api/admin/waitlist", (req, res) => {
   const seekers = getWaitlist();
