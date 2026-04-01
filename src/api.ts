@@ -51,7 +51,8 @@ app.use(express.json());
 // --- Sovereign Authentication Middleware ---
 const authenticate = (req: express.Request, res: express.Response, next: express.NextFunction) => {
   const sovereignKey = process.env.NASTENKA_API_KEY;
-  const providedKey = req.headers['x-nastenka-key'];
+  const providedHeaderKey = req.headers['x-nastenka-key'];
+  const providedQueryKey = req.query.key as string;
 
   if (!sovereignKey) {
     // If no key is set in .env, we DENY access to ensure sovereignty
@@ -59,8 +60,8 @@ const authenticate = (req: express.Request, res: express.Response, next: express
     return res.status(500).json({ error: 'Sovereign Hub Error: Security key not configured on server.' });
   }
 
-  if (providedKey !== sovereignKey) {
-    return res.status(401).json({ error: 'Unauthorized: Sovereign Key required.' });
+  if (providedHeaderKey !== sovereignKey && providedQueryKey !== sovereignKey) {
+    return res.status(401).json({ error: 'Unauthorized: Sovereign Key required (via header or ?key=).' });
   }
   next();
 };
