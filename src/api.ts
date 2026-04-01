@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import 'dotenv/config';
+import { Resend } from 'resend';
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
 import { z } from "zod";
@@ -27,6 +28,7 @@ interface StrategicRule {
 
 const app = express();
 const port = process.env.PORT || 3001;
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Export the app for Vercel's serverless handler
 export default app;
@@ -186,16 +188,24 @@ app.post("/api/synapses", (req, res) => {
   res.json({ message: "Witnessed: Context added to sovereign ledger." });
 });
 
-app.post("/api/waitlist", (req, res) => {
+app.post("/api/waitlist", async (req, res) => {
   const { email } = req.body;
   if (!email) {
     return res.status(400).json({ error: "Identity proxy missing (email)." });
   }
   saveWaitlistEmail(email);
   
-  // Terminal Witnessing: The notification pulse
-  console.log(`🌑 NEURAL RECEPTION: New seeker recorded for Nastenka protocol: ${email}`);
-  console.log(`📡 NOTIFICATION: Pulsing to nastenka.ai.contact@gmail.com...`);
+  try {
+    await resend.emails.send({
+      from: 'Nastenka AI <onboarding@resend.dev>',
+      to: 'nastenka.ai.contact@gmail.com',
+      subject: '🌑 NEURAL RECEPTION: New Seeker Archive Request',
+      html: `<p>A new identity proxy has requested access to the Nastenka AI Sovereign Hub: <strong>${email}</strong></p>`,
+    });
+    console.log(`🌑 NEURAL RECEPTION: New seeker recorded and notification sent for: ${email}`);
+  } catch (error) {
+    console.error('❌ Email notification failed:', error);
+  }
   
   res.json({ message: "Resonance Captured: You are now a seeker in the archive." });
 });
