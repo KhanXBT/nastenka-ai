@@ -8,7 +8,7 @@ const dbPath = IS_VERCEL
 
 let db: any = null;
 
-function getDB() {
+export function getDB() {
   if (!db) {
     db = new Database(dbPath);
   }

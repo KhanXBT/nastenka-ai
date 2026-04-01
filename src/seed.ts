@@ -1,6 +1,7 @@
-import db from "./db.js";
+import { getDB } from "./db.js";
 
 export function seedDream() {
+  const db = getDB();
   console.log("🌑 Nastenka: Seeding the White Nights dream for the world to witness...");
 
   // 1. Create a Demo Project
