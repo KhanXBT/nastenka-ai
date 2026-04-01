@@ -197,45 +197,49 @@ function createNastenkaServer() {
   return server;
 }
 
-// -----------------------------------------------------------------------------
-// 🌐 Session-Aware SSE Transport Logic
-// -----------------------------------------------------------------------------
-const sessions = new Map<string, SSEServerTransport>();
+// 🧠 MCP Server Initialization (The Unified Port)
+const mcpServer = createNastenkaServer();
+
+// 🌐 SSE Transport Logic
+let activeTransport: SSEServerTransport | null = null;
 
 app.get("/sse", async (req, res) => {
-  console.log("Nastenka: Establishing New Real-time Session...");
+  console.log("Nastenka: Establishing Real-time SSE Handshake...");
   
   const sovereignKey = process.env.NASTENKA_API_KEY;
-  const server = createNastenkaServer();
+
+  // Purification Check: Close any phantom previous transport to prevent a 500 crash
+  if (activeTransport) {
+    try {
+      console.log("🌑 NEURAL RESET: Closing active session to prevent cloud collision.");
+      activeTransport.close();
+    } catch (e) {
+      console.error("Purification Warning:", e);
+    }
+  }
+
+  // Inject key into the message port so ChatGPT stays authenticated
+  activeTransport = new SSEServerTransport(`/messages?key=${sovereignKey}`, res);
   
-  // Inject the key into the message port so ChatGPT is automatically authenticated for its pulses
-  const transport = new SSEServerTransport(`/messages?key=${sovereignKey}`, res);
-  
-  // Connect and store by session ID to prevent collisions
-  await server.connect(transport);
-  
-  const sessionId = transport.sessionId;
-  sessions.set(sessionId, transport);
-  
-  console.log(`🌑 NEURAL CONNECTIVITY: New session started: ${sessionId}`);
+  try {
+    await mcpServer.connect(activeTransport);
+    console.log("🌑 NEURAL CONNECTIVITY: New Hub session authenticated and vocal.");
+  } catch (err) {
+    console.error("Connection Error:", err);
+    res.status(500).end();
+  }
 
   res.on('close', () => {
-    console.log(`🌑 NEURAL CONNECTIVITY: Session closing: ${sessionId}`);
-    sessions.delete(sessionId);
-    // Note: We could call server.close() if needed, but cleanup is usually handled by transport close
+    // Note: On Vercel, this usually doesn't stay alive long, but we keep it clean.
   });
 });
 
 app.post("/messages", async (req, res) => {
-  const sessionId = req.query.sessionId as string;
-  const transport = sessions.get(sessionId);
-
-  if (!transport) {
-    console.error(`❌ NEURAL ERROR: Session not found: ${sessionId}`);
-    return res.status(404).json({ error: "Session expired or not found." });
+  if (activeTransport) {
+    await activeTransport.handlePostMessage(req, res);
+  } else {
+    res.status(404).json({ error: "No vocal Hub transport found." });
   }
-
-  await transport.handlePostMessage(req, res);
 });
 
 // -----------------------------------------------------------------------------

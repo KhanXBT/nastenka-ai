@@ -1,0 +1,9 @@
+Supervised Task for OpenCode (Model: qwen 3.6): 
+Analyzie why the Nastenka AI Hub (src/api.ts) is still causing ChatGPT to hang during the 'Create' phase. 
+
+The current architecture uses a 'Map<string, SSEServerTransport>' at the top level of the Node.js process. On Vercel, this is brittle because POST requests often hit different serverless instances that don't share this memory.
+
+1. Review the current code in src/api.ts.
+2. Propose a solution for 'Stateless Session Isolation' or a persistent session store.
+3. If Vercel is insufficient, consider a Cloud Run deployment plan using the cloudrun MCP tool.
+
