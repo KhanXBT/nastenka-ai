@@ -28,7 +28,19 @@ interface StrategicRule {
 
 const app = express();
 const port = process.env.PORT || 3001;
-const resend = new Resend(process.env.RESEND_API_KEY);
+// --- Lazy Resend Initialization ---
+let resendInstance: Resend | null = null;
+function getResend() {
+  const key = process.env.RESEND_API_KEY;
+  if (!key) {
+    console.warn("⚠️  NOTIFICATION WARNING: No RESEND_API_KEY found. Email resonance skipped.");
+    return null;
+  }
+  if (!resendInstance) {
+    resendInstance = new Resend(key);
+  }
+  return resendInstance;
+}
 
 // Export the app for Vercel's serverless handler
 export default app;
@@ -212,16 +224,21 @@ app.post("/api/waitlist", async (req, res) => {
   }
   saveWaitlistEmail(email);
   
-  try {
-    await resend.emails.send({
-      from: 'Nastenka AI <onboarding@resend.dev>',
-      to: 'nastenka.ai.contact@gmail.com',
-      subject: '🌑 NEURAL RECEPTION: New Seeker Archive Request',
-      html: `<p>A new identity proxy has requested access to the Nastenka AI Sovereign Hub: <strong>${email}</strong></p>`,
-    });
-    console.log(`🌑 NEURAL RECEPTION: New seeker recorded and notification sent for: ${email}`);
-  } catch (error) {
-    console.error('❌ Email notification failed:', error);
+  const resend = getResend();
+  if (resend) {
+    try {
+      await resend.emails.send({
+        from: 'Nastenka AI <onboarding@resend.dev>',
+        to: 'nastenka.ai.contact@gmail.com',
+        subject: '🌑 NEURAL RECEPTION: New Seeker Archive Request',
+        html: `<p>A new identity proxy has requested access to the Nastenka AI Sovereign Hub: <strong>${email}</strong></p>`,
+      });
+      console.log(`🌑 NEURAL RECEPTION: New seeker recorded and notification sent for: ${email}`);
+    } catch (error) {
+      console.error('❌ Email notification failed:', error);
+    }
+  } else {
+    console.log(`🌑 NEURAL RECEPTION: New seeker recorded (Notification skipped): ${email}`);
   }
   
   res.json({ message: "Resonance Captured: You are now a seeker in the archive." });
