@@ -25,7 +25,7 @@ const ImportDialog: React.FC<ImportDialogProps> = ({ isOpen, onClose, onImportCo
       onImportComplete();
       onClose();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Resurrection failed.');
+      setError(err instanceof Error ? err.message : 'Sync failed.');
     } finally {
       setIsImporting(false);
     }
@@ -42,8 +42,8 @@ const ImportDialog: React.FC<ImportDialogProps> = ({ isOpen, onClose, onImportCo
           <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-primary/20 animate-pulse">
             <span className="material-symbols-outlined text-primary text-3xl">auto_fix_high</span>
           </div>
-          <h2 className="text-2xl font-headline italic text-violet-100">Resurrect Context</h2>
-          <p className="text-[10px] uppercase tracking-widest text-slate-500 mt-2 font-body">Import ChatGPT conversations.json archive</p>
+          <h2 className="text-2xl font-headline italic text-violet-100">Sync Alpha Node</h2>
+          <p className="text-[10px] uppercase tracking-widest text-slate-500 mt-2 font-body">Import Agentic Interaction Log</p>
         </div>
 
         <div className="space-y-6">
@@ -54,7 +54,7 @@ const ImportDialog: React.FC<ImportDialogProps> = ({ isOpen, onClose, onImportCo
                 {isImporting ? 'sync' : 'cloud_upload'}
               </span>
               <p className="text-sm font-body text-slate-300">
-                {isImporting ? 'Sythesizing Epistemic Flows...' : 'Drop interactions.json here'}
+                {isImporting ? 'Agentic Synapse Integration...' : 'Drop interaction log here'}
               </p>
               {!isImporting && <p className="text-[9px] uppercase text-slate-600 mt-2">Maximum Sovereignty Guaranteed</p>}
             </div>
@@ -65,7 +65,7 @@ const ImportDialog: React.FC<ImportDialogProps> = ({ isOpen, onClose, onImportCo
 
         <div className="mt-8 pt-6 border-t border-white/5 flex justify-end gap-3 text-[10px] font-label text-slate-500">
           <span className="material-symbols-outlined text-sm">security</span>
-          <span>1866 Archive Protocol Active</span>
+          <span>2026 Alpha Command Active</span>
         </div>
       </div>
     </div>

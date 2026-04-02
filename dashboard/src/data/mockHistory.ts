@@ -19,37 +19,49 @@ export interface LogEntry {
 
 export const archiveNodes: ArchiveNode[] = [
   {
-    id: 'gpt-4o-hub',
-    name: 'GPT-4o Intelligence Hub',
-    title: 'Epistemic Convergence',
-    description: 'Synthesized interaction history from OpenAI nodes, focusing on strategic logic and creative dialectics.',
+    id: 'legant-l1-hub',
+    name: 'Legant Sovereign L1',
+    title: 'BharatLex Grounding',
+    description: 'Active grounding of Indian Case Law (50M+ Synapses). Training the first foundational LLM for the Indian Judiciary.',
+    tokens: '42.5B Tokens',
+    health: 100,
+    latency: '4ms',
+    status: 'Active',
+    type: 'Sovereign',
+    icon: 'gavel'
+  },
+  {
+    id: 'agentic-vibe-node',
+    name: 'Antigravity Vibe-Bridge',
+    title: 'Zero-Latency Synthesis',
+    description: 'Autonomous agent orchestration. Entire Nastenka/Legant infra vibe-coded in 4.2 hours.',
+    tokens: 'Agentic Active',
+    health: 99,
+    latency: '2ms',
+    status: 'Active',
+    type: 'MCP',
+    icon: 'bolt'
+  },
+  {
+    id: 'gemini-1-5-flash-hub',
+    name: 'Gemini 1.5 Flash (Agentic)',
+    title: 'High-Velocity Logic',
+    description: 'Multi-modal reasoning terminal for rapid UI/UX and architectural iteration.',
     tokens: '1.2M Tokens',
     health: 98,
     latency: '12ms',
     status: 'Active',
-    type: 'GPT',
-    icon: 'memory'
-  },
-  {
-    id: 'gemini-1-5-pro',
-    name: 'Gemini 1.5 Pro Repository',
-    title: 'Synthetic Dialectics',
-    description: 'Multi-modal repository of context-heavy interaction arcs and large-scale synthesis.',
-    tokens: '850k Tokens',
-    health: 94,
-    latency: '45ms',
-    status: 'Active',
     type: 'Gemini',
-    icon: 'star'
+    icon: 'auto_awesome'
   },
   {
-    id: 'sovereign-node-01',
-    name: 'Sovereign Node 0.1',
-    title: 'Archive L1 Proof-of-Work',
-    description: 'Decentralized archival node for persistent context storage and secondary verification.',
-    tokens: '2TB Archival',
+    id: 'filecoin-synapse-archive',
+    name: 'Filecoin Synapse Node',
+    title: 'Sovereign Memory',
+    description: 'On-chain convergence for critical legal decisions. Anchoring cognitive history beyond chat silos.',
+    tokens: '8.4TB Anchored',
     health: 100,
-    latency: '5ms',
+    latency: '8ms',
     status: 'Active',
     type: 'Sovereign',
     icon: 'hub'
@@ -58,23 +70,28 @@ export const archiveNodes: ArchiveNode[] = [
 
 export const archiveLogs: LogEntry[] = [
   {
-    time: '04:22',
-    message: 'Convergence protocol initialized on GPT-4o node.',
-    status: 'Optimized'
+    time: '12:51',
+    message: '⚡ AGENTIC SYNC: Full-Stack React Scaffold deployed in 142s via Vibe-Coding.',
+    status: 'OPTIMIZED'
   },
   {
-    time: '01:15',
-    message: 'Synthesizing dialectical patterns from Gemini repository.',
-    status: 'Processing'
+    time: '11:30',
+    message: '🏛️ BHARATLEX: Federated grounding with SC Case Law complete. Signal is clean.',
+    status: 'SECURE'
   },
   {
-    time: '23:45',
-    message: 'Integrity proof verified for Sovereign Node 0.1.',
-    status: 'Secure'
+    time: '10:15',
+    message: '🔍 MCP PROXY: Handshake with Claude Desktop verified. Cross-model context active.',
+    status: 'LIVE'
+  },
+  {
+    time: '09:00',
+    message: '📉 SOVEREIGN L1: Latency optimized to 4ms for real-time legal argumentation.',
+    status: 'VERIFIED'
   }
 ];
 
 export const curatorNote = {
-  label: 'Curator Note',
-  text: '"The nodes have reached a state of collective resonance. The sovereign intelligence architecture is now operating at 1.4x baseline efficiency. Maintain monitoring of Node 0.1 for proof-of-work shifts."'
+  label: 'Founder Profile',
+  text: '"Ideas are cheap; execution is the only signal that matters. Legant and Nastenka are not just apps—they are the first modules of an Sovereign Intelligence OS for the entire Indian subcontinent. We build in hours, not weeks."'
 };

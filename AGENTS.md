@@ -1,33 +1,38 @@
-# Nastenka AI: Sovereign Intelligence Hub 🌑✨
+# Agentic Alpha: Sovereign Intelligence Command Center 🚀
 
-This repository is a sovereign cognitive layering system designed to preserve context across AI models and platforms. It implements the **Model Context Protocol (MCP)** via a unified Hub (Backend) and Witness Dashboard (Frontend).
+This repository is a high-velocity **Agentic Orchestration Layer** designed for terminal velocity building. It implements the **Model Context Protocol (MCP)** via a unified Command Hub (Backend) and Alpha Dashboard (Frontend).
 
-## 🌒 Core Architecture
+## 🚀 Alpha Architecture
 
-### 1. The Hub (Source: `src/`)
-- **`api.ts`**: The main Express server handling REST and MCP SSE Handshaking.
-- **`db.ts`**: Unified SQLite memory layer. Automatically detects Vercel environments and switches to `/tmp/nastenka_brain.db` for cloud portability.
+### 1. The Command Hub (Source: `src/`)
+- **`api.ts`**: The main Express server handling agentic orchestration and MCP SSE handshaking.
+- **`db.ts`**: Unified SQLite memory layer for high-density command persistence.
 - **`index.ts`**: Stdio-based MCP server for local development.
-- **`seed.ts`**: Neural seeding logic used to initialize the cognitive map on first deployment.
+- **`seed.ts`**: Strategic seeding logic used to ground the Command Center on first deployment.
 
-### 2. The Witness (Source: `dashboard/`)
-- **React/Vite/Tailwind**: A high-fidelity, "White Nights" inspired dashboard.
-- **`DashboardView.tsx`**: visualizes synapses and strategic decisions.
-- **`LoginView.tsx`**: The "Threshold of Witness" entry point.
+### 2. The Alpha Gateway (Source: `dashboard/`)
+- **React/Vite/Tailwind**: A high-fidelity, "Founder-First" Command Center.
+- **`DashboardView.tsx`**: Visualizes agentic syncs and strategic legal decisions.
+- **`LoginView.tsx`**: The "Agentic Alpha Gateway" entry point.
 - **`WaitlistModal.tsx`**: Protocol access capture for new seekers.
 
 ### 3. Deployment (`vercel.json`)
-- Unified mono-root deployment.
+- Unified mono-root deployment for rapid shipping.
 - Root `/api` and `/sse` routed to `src/api.ts`.
 - Root `/*` routed to the built `dashboard/dist`.
 
-## 🌓 Active Status
+## ⚡ Active Signal
 - **URL**: [https://nastenka-ai.vercel.app/](https://nastenka-ai.vercel.app/)
-- **Custom Domain**: `nastenka-ai.site` (A Record: `76.76.21.21`).
+- **Custom Domain**: `agentic-alpha.online` (Proposed).
 - **Waitlist**: Fully operational.
-- **Memory**: Persistent in `/tmp/` (Local-first, ephemeral cloud).
+- **Memory**: Persistent in `/tmp/` (High-speed local-first).
 
 ## 🌘 Mission for the New Subagent
-- **Persistence**: Consider migrating from `/tmp/` SQLite to a persistent cloud PostgreSQL (Supabase/Vercel Postgres) for the final hackathon demo.
-- **Filecoin**: Integrate the storage backend in `src/storage/filecoin.ts` to anchor cognitive synapses on-chain.
-- **Aesthetics**: Maintain the "Soulful Minimalism" and "No Line" rule of the White Nights design system.
+- **Execution Over Syntax**: Never prioritize "the story" over "the signal."
+- **Velocity**: Build. Vibe. Ship. 
+- **The Vision**: Support the development of **Legant.ai**—the Sovereign Legal OS for India. 
+- **Aesthetics**: Maintain the **"Alpha Architecture"** rule: "Speed, Efficiency, Power." No more "Soulful Minimalism."
+
+---
+
+> "I don't write code; I vibe systems into existence."

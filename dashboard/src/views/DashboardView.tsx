@@ -36,12 +36,12 @@ const DashboardView: React.FC<DashboardViewProps> = ({ onLogout }) => {
             auto_awesome
           </span>
           <h1 className="text-xl font-headline italic text-violet-200 tracking-widest uppercase">
-            Sovereign Intelligence
+            Agentic Command Center
           </h1>
         </div>
         <div className="flex items-center gap-6">
           <nav className="hidden md:flex gap-8">
-            <button onClick={() => refreshData()} className="text-violet-200 brightness-125 font-sans text-xs uppercase tracking-widest hover:text-primary transition-colors">Archives</button>
+            <button onClick={() => refreshData()} className="text-violet-200 brightness-125 font-sans text-xs uppercase tracking-widest hover:text-primary transition-colors">Command Feed</button>
             <button onClick={() => alert('Sovereign Repository access initializing...')} className="text-slate-400 hover:text-violet-300 transition-colors duration-500 font-sans text-xs uppercase tracking-widest">Repositories</button>
             <button onClick={() => setIsConnectorOpen(true)} className="text-slate-400 hover:text-violet-300 transition-colors duration-500 font-sans text-xs uppercase tracking-widest">Nodes</button>
           </nav>
@@ -69,15 +69,15 @@ const DashboardView: React.FC<DashboardViewProps> = ({ onLogout }) => {
               <span className="material-symbols-outlined text-primary">hub</span>
             </div>
             <div>
-              <h3 className="font-headline text-lg text-violet-100 italic">Nastenka AI</h3>
-              <p className="font-body uppercase tracking-[0.05em] text-[10px] text-slate-500">Celestial Curator • Node 0.1</p>
+              <h3 className="font-headline text-lg text-violet-100 italic">Legant.ai</h3>
+              <p className="font-body uppercase tracking-[0.05em] text-[10px] text-slate-500">Sovereign Legal OS • Node 0.1</p>
             </div>
           </div>
           
           <div className="space-y-2 mb-12">
             <button className="w-full flex items-center gap-3 py-3 px-4 rounded-xl text-violet-100 bg-violet-400/20 border-r-4 border-violet-400 transition-all duration-500 group text-left shadow-[0_0_20px_rgba(139,92,246,0.1)]">
               <span className="material-symbols-outlined text-violet-400 text-lg">database</span>
-              <span className="font-body uppercase tracking-[0.1em] text-[10px] font-bold">Archive Feed</span>
+              <span className="font-body uppercase tracking-[0.1em] text-[10px] font-bold">Command Feed</span>
             </button>
             <button className="w-full flex items-center gap-3 py-3 px-4 rounded-xl text-slate-400 hover:bg-white/5 hover:text-violet-300 transition-all duration-500 text-left group" onClick={() => alert('Synchronizing sovereign repositories...')}>
               <span className="material-symbols-outlined text-lg group-hover:scale-110 transition-transform">cloud_done</span>
@@ -93,9 +93,9 @@ const DashboardView: React.FC<DashboardViewProps> = ({ onLogout }) => {
             <button 
               onClick={() => {
                 const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-                const newLog = { time: now, message: "🌑 NEURAL RESONANCE: Strategic Decision 'Sovereign-Bridge' Locked.", status: "VERIFIED" };
+                const newLog = { time: now, message: "🚀 AGENTIC SYNC: Strategic Decision 'Alpha-Launch' Locked.", status: "VERIFIED" };
                 setLogs(prev => [newLog, ...prev]);
-                alert("✨ Neural Pulse Initiated: Synapse Locked to Sovereign Ledger.");
+                alert("⚡ Agentic Pulse Initiated: Command Locked to Sovereign Ledger.");
               }}
               className="w-full flex items-center gap-3 py-4 px-5 rounded-2xl text-primary bg-primary/10 border border-primary/30 group shadow-[0_0_20px_rgba(139,92,246,0.15)] hover:bg-primary/20 transition-all duration-500"
             >
@@ -112,13 +112,13 @@ const DashboardView: React.FC<DashboardViewProps> = ({ onLogout }) => {
               <div className="w-8 h-8 rounded-lg bg-violet-500/20 flex items-center justify-center group-hover:bg-violet-500/30 transition-colors">
                 <span className="material-symbols-outlined text-md group-hover:rotate-12 transition-transform">history_edu</span>
               </div>
-              <span className="font-body uppercase tracking-[0.15em] text-[10px] font-bold">Resurrect Node</span>
+              <span className="font-body uppercase tracking-[0.15em] text-[10px] font-bold">Sync Node</span>
             </button>
           </div>
 
           <div className="mt-auto px-4 pb-12">
             <div className="p-4 rounded-xl bg-surface-container-lowest border border-outline-variant/10 shadow-[0_0_15px_rgba(208,188,255,0.03)]">
-              <p className="text-[10px] text-slate-400 mb-2 uppercase tracking-tighter">Archive Integrity</p>
+              <p className="text-[10px] text-slate-400 mb-2 uppercase tracking-tighter">Command Integrity</p>
               <div className="h-1 w-full bg-surface-container-highest rounded-full overflow-hidden">
                 <div className="h-full bg-primary w-4/5 shadow-[0_0_8px_rgba(208,188,255,0.6)]"></div>
               </div>
@@ -135,7 +135,7 @@ const DashboardView: React.FC<DashboardViewProps> = ({ onLogout }) => {
           {/* Hero Header */}
           <header className="max-w-5xl mb-20 relative z-10">
             <h2 className="text-5xl md:text-7xl font-headline italic tracking-tight text-violet-100 mb-4">
-              The Celestial Archive
+              Agentic Command Center
             </h2>
             <div className="flex items-center gap-4 text-slate-400">
               <span className="h-px w-12 bg-violet-500/30"></span>
@@ -179,7 +179,7 @@ const DashboardView: React.FC<DashboardViewProps> = ({ onLogout }) => {
                   <div className="flex justify-between items-center">
                     <div className="h-10 opacity-60 grayscale hover:grayscale-0 transition-all text-violet-400 flex items-center gap-2">
                       <span className="material-symbols-outlined text-3xl">insights</span>
-                      <span className="text-[10px] uppercase font-label">Neural Flow v.1866</span>
+                      <span className="text-[10px] uppercase font-label">Agentic Alpha v.2026</span>
                     </div>
                     <button 
                       onClick={() => window.open('https://github.com/KhanXBT/nastenka-ai', '_blank')}
@@ -244,7 +244,7 @@ const DashboardView: React.FC<DashboardViewProps> = ({ onLogout }) => {
                       </div>
                       <div className="mt-4 pt-4 border-t border-white/5 flex gap-2">
                         <span className="px-2 py-1 bg-violet-500/10 rounded text-[9px] text-violet-300 border border-violet-500/20 uppercase tracking-tighter">Multi-Modal</span>
-                        <span className="px-2 py-1 bg-violet-500/10 rounded text-[9px] text-violet-300 border border-violet-500/20 uppercase tracking-tighter">Archive L1</span>
+                        <span className="px-2 py-1 bg-violet-500/10 rounded text-[9px] text-violet-300 border border-violet-500/20 uppercase tracking-tighter">Sovereign L1</span>
                       </div>
                     </>
                   )}
@@ -257,7 +257,7 @@ const DashboardView: React.FC<DashboardViewProps> = ({ onLogout }) => {
           <section className="mt-32 border-t border-violet-500/10 pt-12 max-w-4xl relative z-10 pb-32">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
               <div>
-                <h5 className="text-[10px] font-label tracking-[0.2em] text-slate-500 mb-6 uppercase">Archive Logs</h5>
+                <h5 className="text-[10px] font-label tracking-[0.2em] text-slate-500 mb-6 uppercase">Command Logs</h5>
                 <ul className="space-y-6">
                   {logs.map((log, index) => (
                     <li key={index} className="flex gap-4 items-start translate-x-0 hover:translate-x-1 transition-transform duration-500 cursor-default">

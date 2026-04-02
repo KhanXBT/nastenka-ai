@@ -70,7 +70,7 @@ const authenticate = (req: express.Request, res: express.Response, next: express
 let isMemoryInitialized = false;
 const initializeMemory = (req: express.Request, res: express.Response, next: express.NextFunction) => {
   if (!isMemoryInitialized) {
-    console.log("🌑 Nastenka: Waking up neural memory...");
+    console.log("🚀 Agentic Alpha: Initializing Command Memory...");
     try {
       setupDB();
       seedDream();
@@ -94,17 +94,17 @@ app.post("/api/waitlist", async (req, res) => {
   if (resend) {
     try {
       await resend.emails.send({
-        from: 'Nastenka AI <onboarding@resend.dev>',
+        from: 'Agentic Alpha <onboarding@resend.dev>',
         to: 'nastenka.ai.contact@gmail.com',
-        subject: '🌑 NEURAL RECEPTION: New Seeker',
+        subject: '🚀 AGENTIC SIGNAL: New Alpha Candidate',
         html: `<p>New identity proxy: <strong>${email}</strong></p>`,
       });
-      console.log(`🌑 NEURAL RECEPTION: Recorded ${email}`);
+      console.log(`🚀 AGENTIC SIGNAL: Recorded ${email}`);
     } catch (error) {
       console.error('❌ Email failed:', error);
     }
   }
-  res.json({ message: "Resonance Captured: Seek the White Nights." });
+  res.json({ message: "Signal Captured: Mission Initialized." });
 });
 
 // --- Sovereign Routes ---
@@ -115,14 +115,14 @@ app.use('/sse', authenticate);
 // -----------------------------------------------------------------------------
 // 🧠 MCP Server Factory (Isolated per Connection)
 // -----------------------------------------------------------------------------
-function createNastenkaServer() {
+function createAlphaServer() {
   const server = new McpServer({
-    name: "Nastenka-AI",
+    name: "Agentic-Alpha",
     version: "1.0.0",
   });
 
   server.tool(
-    "witness_flow",
+    "command_flow",
     "Record current intent & context.",
     {
       projectName: z.string().describe("Project name"),
@@ -149,7 +149,7 @@ function createNastenkaServer() {
       return {
         content: [{ 
           type: "text", 
-          text: `Nastenka has witnessed the flow for '${projectName}'.\nFilecoin Proof: ${filecoinCid}` 
+          text: `Agentic Alpha has synchronized the flow for '${projectName}'.\nFilecoin Proof: ${filecoinCid}` 
         }],
       };
     }
@@ -172,7 +172,7 @@ function createNastenkaServer() {
   );
 
   server.tool(
-    "resurrect_brain",
+    "ground_brain",
     "Retrieve project grounding.",
     {
       projectName: z.string().describe("Project to resurrect"),
@@ -182,14 +182,14 @@ function createNastenkaServer() {
       const latestSynapse = data.latestSynapses[0];
       
       if (!latestSynapse && data.rules.length === 0) {
-        return { content: [{ type: "text", text: `Nastenka has no memory of '${projectName}'.` }] };
+        return { content: [{ type: "text", text: `Agentic Alpha has no signal of '${projectName}'.` }] };
       }
 
       const rulesStr = data.rules.map((r: StrategicRule) => `- ${r.decision_name}: ${r.rationale}`).join("\n");
       const synapseStr = latestSynapse ? `\nLATEST INTENT: ${latestSynapse.intent || latestSynapse.content}` : "";
 
       return {
-        content: [{ type: "text", text: `NASTENKA RESURRECTION PAYLOAD for '${projectName}':\n\nSTRATEGIC RULES:\n${rulesStr}\n${synapseStr}` }],
+        content: [{ type: "text", text: `AGENTIC ALPHA SYNC PAYLOAD for '${projectName}':\n\nSTRATEGIC RULES:\n${rulesStr}\n${synapseStr}` }],
       };
     }
   );
@@ -208,7 +208,7 @@ function createNastenkaServer() {
 //   4. Graceful 503 when session missing → client knows to reconnect
 
 const sessions = new Map<string, SSEServerTransport>();
-const SESSIONS_FILE = '/tmp/nastenka_sessions.json';
+const SESSIONS_FILE = '/tmp/alpha_sessions.json';
 
 function persistSessionIds() {
   try {
@@ -218,12 +218,12 @@ function persistSessionIds() {
 }
 
 app.get("/sse", async (req, res) => {
-  console.log("🌑 Nastenka: Establishing Stateless-Safe SSE Handshake...");
+  console.log("🚀 Agentic Alpha: Establishing Command Handshake...");
   
   const sovereignKey = process.env.NASTENKA_API_KEY;
   
   // Fresh McpServer per connection — eliminates "Already connected to transport" 500
-  const server = createNastenkaServer();
+  const server = createAlphaServer();
   
   // Sovereign key embedded in message port URL so POST /messages auth succeeds
   const messageEndpoint = `/messages?key=${sovereignKey}`;
@@ -233,19 +233,19 @@ app.get("/sse", async (req, res) => {
   sessions.set(sessionId, transport);
   persistSessionIds();
   
-  console.log(`🌑 NEURAL CONNECTIVITY: Session ${sessionId} established`);
+  console.log(`🚀 FOUNDER CONNECTIVITY: Session ${sessionId} established`);
   
   try {
     await server.connect(transport);
   } catch (err) {
-    console.error("🌑 SSE Connection Error:", err);
+    console.error("🚀 SSE Connection Error:", err);
     sessions.delete(sessionId);
     if (!res.writableEnded) res.status(500).end();
     return;
   }
 
   res.on('close', () => {
-    console.log(`🌑 NEURAL DISCONNECT: Session ${sessionId} closed`);
+    console.log(`🚀 AGENTIC DISCONNECT: Session ${sessionId} closed`);
     sessions.delete(sessionId);
     persistSessionIds();
   });

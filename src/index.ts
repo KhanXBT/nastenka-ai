@@ -18,14 +18,14 @@ interface StrategicRule {
 setupDB();
 
 const server = new McpServer({
-  name: "Nastenka-AI",
+  name: "Agentic-Alpha",
   version: "1.0.0",
 });
 
 // TOOL: Witness Flow
 // Used to capture the "Active Synapse"
 server.tool(
-  "witness_flow",
+  "command_flow",
   "Capture the current architectural intent and cognitive state of the user.",
   {
     projectName: z.string().describe("The name of the project being worked on"),
@@ -48,7 +48,7 @@ server.tool(
     return {
       content: [{ 
         type: "text", 
-        text: `Nastenka has witnessed the flow for '${projectName}'.\nSynapse recorded.\nFilecoin Proof: ${filecoinCid}` 
+        text: `Agentic Alpha has synchronized the flow for '${projectName}'.\nSynapse recorded.\nFilecoin Proof: ${filecoinCid}` 
       }],
     };
   }
@@ -67,7 +67,7 @@ server.tool(
   async ({ projectName, decisionName, rationale }) => {
     saveStrategicDecision(projectName, decisionName, rationale);
     return {
-      content: [{ type: "text", text: `Strategic decision '${decisionName}' has been locked by Nastenka for '${projectName}'.` }],
+      content: [{ type: "text", text: `Strategic decision '${decisionName}' has been locked by Agentic Alpha for '${projectName}'.` }],
     };
   }
 );
@@ -75,7 +75,7 @@ server.tool(
 // TOOL: Resurrect Brain
 // Used by the NEW model to wake up the context
 server.tool(
-  "resurrect_brain",
+  "ground_brain",
   "Retrieve the full cognitive grounding and latest synapses for a project.",
   {
     projectName: z.string().describe("The project name to resurrect"),
@@ -86,7 +86,7 @@ server.tool(
     
     if (!latestSynapse && data.rules.length === 0) {
       return {
-        content: [{ type: "text", text: `Nastenka has no memory of a project named '${projectName}'.` }],
+        content: [{ type: "text", text: `Agentic Alpha has no signal of a project named '${projectName}'.` }],
       };
     }
 
@@ -96,7 +96,7 @@ server.tool(
       : "";
 
     return {
-      content: [{ type: "text", text: `NASTENKA RESURRECTION PAYLOAD for '${projectName}':\n\nSTRATEGIC RULES:\n${rulesStr}\n${synapseStr}` }],
+      content: [{ type: "text", text: `AGENTIC ALPHA SYNC PAYLOAD for '${projectName}':\n\nSTRATEGIC RULES:\n${rulesStr}\n${synapseStr}` }],
     };
   }
 );
@@ -104,7 +104,7 @@ server.tool(
 async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  console.error("Nastenka AI MCP Server running on Stdio.");
+  console.error("Agentic Alpha Command Hub running on Stdio.");
 }
 
 main().catch(console.error);

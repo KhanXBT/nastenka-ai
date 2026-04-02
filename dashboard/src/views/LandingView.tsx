@@ -129,7 +129,7 @@ const LandingView: React.FC<LandingViewProps> = ({ onEnter, onTry }) => {
               />
               <div className="absolute inset-0 bg-[#141413]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </div>
-            <span className="font-headline italic text-lg md:text-xl tracking-tight text-[#141413]">Nastenka</span>
+            <span className="font-headline italic text-lg md:text-xl tracking-tight text-[#141413]">Agentic Alpha</span>
           </div>
 
           <div className="flex items-center gap-4 md:gap-8">
@@ -142,7 +142,7 @@ const LandingView: React.FC<LandingViewProps> = ({ onEnter, onTry }) => {
               >
                 <span className="material-symbols-outlined text-xs animate-pulse">bolt</span>
                 <span className="inline-block min-w-[140px] text-left">
-                  <TypewriterText text="Try Nastenka Assistant" />
+                  <TypewriterText text="Initialize Agentic Alpha" />
                 </span>
                 <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
             </button>
@@ -163,11 +163,11 @@ const LandingView: React.FC<LandingViewProps> = ({ onEnter, onTry }) => {
             </div>
 
             <h1 className="font-headline italic text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl tracking-tight leading-[0.9] text-[#141413]">
-              The Sovereign Brain
+              Agentic Alpha
               <span className="block mt-1 md:mt-2">
-                <span className="text-[#d97757]">// Resurrection</span>
+                <span className="text-[#d97757]">// Terminal Velocity</span>
               </span>
-              <span className="block text-[#d97757]">of Context</span>
+              <span className="block text-[#d97757]">Execution</span>
             </h1>
 
             <p className="font-body text-base md:text-lg text-[#141413]/60 max-w-[580px] leading-relaxed">
@@ -213,7 +213,7 @@ const LandingView: React.FC<LandingViewProps> = ({ onEnter, onTry }) => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                   </svg>
                 </div>
-                <h3 className="font-headline italic text-xl md:text-2xl text-[#141413]">Unified Memory</h3>
+                <h3 className="font-headline italic text-xl md:text-2xl text-[#141413]">Agentic Orchestration</h3>
                 <p className="text-[#141413]/50 text-sm leading-relaxed">
                   Store every conversation, every context, every insight in a single sovereign SQLite database. 
                   Access your complete cognitive history regardless of platform.
@@ -228,7 +228,7 @@ const LandingView: React.FC<LandingViewProps> = ({ onEnter, onTry }) => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                   </svg>
                 </div>
-                <h3 className="font-headline italic text-xl md:text-2xl text-[#141413]">Local Sovereignty</h3>
+                <h3 className="font-headline italic text-xl md:text-2xl text-[#141413]">Founder-First Stack</h3>
                 <p className="text-[#141413]/50 text-sm leading-relaxed">
                   Zero cloud dependency. Your brain runs locally, encrypted and owned entirely by you. 
                   No central authority, no data harvesting.
@@ -243,7 +243,7 @@ const LandingView: React.FC<LandingViewProps> = ({ onEnter, onTry }) => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
                 </div>
-                <h3 className="font-headline italic text-xl md:text-2xl text-[#141413]">MCP Powered</h3>
+                <h3 className="font-headline italic text-xl md:text-2xl text-[#141413]">Sovereign L1 Bridge</h3>
                 <p className="text-[#141413]/50 text-sm leading-relaxed">
                   Built on the Model Context Protocol. Seamlessly connect Claude Desktop, 
                   or any MCP-compatible client to your personal intelligence archive.
@@ -260,9 +260,9 @@ const LandingView: React.FC<LandingViewProps> = ({ onEnter, onTry }) => {
                 Bridge the Context Gap
               </h2>
               <p className="text-[#141413]/55 text-sm md:text-base leading-relaxed">
-                Stop losing context when switching between AI platforms. Nastenka maintains 
-                your conversation history in a unified, queryable format that any LLM can access. 
-                <span className="font-headline italic text-[#141413]/75"> Your context is your power</span>—reclaim it.
+                Stop losing velocity when switching between AI platforms. Agentic Alpha maintains 
+                your strategic intent in a unified, queryable format. 
+                <span className="font-headline italic text-[#141413]/75"> The Vibe is the new Code</span>—ship it.
               </p>
             </div>
             <div className="bg-[#141413] rounded-sm p-8 md:p-10 space-y-6 relative overflow-hidden">
@@ -302,7 +302,7 @@ const LandingView: React.FC<LandingViewProps> = ({ onEnter, onTry }) => {
             
             <div className="relative space-y-8 text-center">
               <h2 className="font-headline italic text-3xl md:text-4xl lg:text-5xl text-[#faf9f5] tracking-tight leading-[1.05]">
-                Your Memory, <span className="text-[#d97757]">Your Rules</span>
+                Agentic Command, <span className="text-[#d97757]">Your Mission</span>
               </h2>
               <p className="text-[#faf9f5]/50 text-sm md:text-base max-w-[500px] mx-auto leading-relaxed">
                 Built for those who refuse to let their insights disappear into the void. 
@@ -332,7 +332,7 @@ const LandingView: React.FC<LandingViewProps> = ({ onEnter, onTry }) => {
               <div className="w-7 h-7 rounded-full overflow-hidden border border-[#141413]/10 opacity-60">
                 <img src="/logo.jpg" alt="Nastenka AI Logo" className="w-full h-full object-cover" />
               </div>
-              <span className="font-headline italic text-sm text-[#141413]/40">Nastenka AI</span>
+              <span className="font-headline italic text-sm text-[#141413]/40">Agentic Alpha</span>
             </div>
             <div className="flex items-center gap-6 text-xs text-[#141413]/35 uppercase tracking-[0.15em]">
               <span>© 2026 Archive</span>
