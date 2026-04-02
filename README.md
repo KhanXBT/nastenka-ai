@@ -1,60 +1,91 @@
-# Agentic Alpha 🚀
+# Nastenka AI 🌑✨
 
-![Agentic Alpha Logo](./logo.png)
-
-> **"I don't write code; I vibe systems into existence."**
+> [!IMPORTANT]
+> **Project Status: Under Development**
+> 
+> A high-fidelity interactive demo is now live and available at **[nastenka-ai.site](https://nastenka-ai.site/)** (or [nastenka-ai.vercel.app](https://nastenka-ai.vercel.app/)). 
+> 
+> Nastenka AI is being developed in public and is fully open-sourced. We welcome any contributions to the project—feel free to explore, fork, and use the codebase as your own sovereign cognitive shell. 🌑🚀✨
 
 ---
 
-## ⚡ The Agentic Signal (MCP)
-**Connect your high-velocity workflow to the Agentic Alpha Command Center in seconds.**
+![Nastenka AI Logo](./logo.png)
 
-### **1. Copy the Command Hub URL**
-`https://alpha.agentic.ai/sse` (or your [Vercel Deployment URL]/sse)
+> "Context is a ghost until it finds a body. Nastenka is the vessel."
+
+---
+
+## ⚡ The Universal Handshake (MCP)
+**Connect any AI model (Qwen, Claude, GPT) to your personal Nastenka Hub in seconds.**
+
+### **1. Copy your Hub's Global Resonance URL**
+`https://nastenka-ai.site/sse` (or your [Vercel Deployment URL]/sse)
 
 ### **2. Add as a New MCP Server**
 - **Type**: `SSE`
-- **Platform**: OpenCode // Cursor // Windsurf
-- **Signal**: Active
+- **Platform**: OpenCode // Cursor // Claude Desktop
+- **Resonance**: Active
 
 ---
 
-## 🚀 Terminal Velocity Deployment
-Deploy your own Agentic Alpha Hub and Command Center instantly:
+## 🚀 One-Click Resonance
+Deploy your own Nastenka Hub and Dashboard to Vercel instantly:
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FKhanXBT%2Fnastenka-ai)
 
 ---
 
-## 🏗️ The Build: Why Agentic Alpha?
+## 📖 The Story: Why "Nastenka"?
 
-Traditional development is a bottleneck. In the era of LLMs, the "vibe" is the new code. **Agentic Alpha** is a Sovereign Intelligence Command Center built to manage the terminal velocity of high-intensity builders.
+In Fyodor Dostoevsky's **"White Nights,"** Nastenka is the soulful witness to a dreamer's internal life. During the ethereal, sunlit nights of St. Petersburg, she listens to his dreams, his logic, and his vision. She is the one who remembers.
 
-It isn't a "Personal Assistant." It is an **Agentic Infrastructure Layer** that orchestrates complex, multi-model workflows with zero overhead.
+In the world of AI, we are all "Dreamers." We spend hours in deep flow with a model (Claude, GPT, Gemini, Qwen), building complex **Cognitive Structures**. But when the token quota hits, or the context window saturates, we "wake up." We switch models, and suddenly, the new AI knows nothing. **Your AI's Brain** has been wiped clean. The context has died.
 
-### **The Stack**
-*   **Command Hub (Express // MCP):** The stateless, high-performance bridge for agentic orchestration.
-*   **The Sovereign Brain (SQLite):** A persistent, high-density Knowledge Graph mapping every strategic synapse.
-*   **Model Context Protocol (MCP):** The universal neural handshake that connects Agentic Alpha to any platform-agnostic provider.
+**Nastenka AI** is named after this witness. She sits above the models, ensuring that what you built in one dream carries over to the next—acting as a **Distributed Cognitive Shell** for your mind.
 
----
+### ✝️ The Meaning: Anastasia (Anastasis)
+The name **Nastenka** is a diminutive of **Anastasia**, derived from the Greek word ***Anástasis***, meaning **"Resurrection."** 
 
-## ⚖️ The Mission: Legant.ai
-
-The core application of the Agentic Alpha infrastructure is **Legant.ai**—the first Sovereign Intelligence OS for the Indian Legal System. 
-
-We are automating the 50M+ case backlog of the Indian judiciary by training **BharatLex**—the foundational LLM for Indian Case Law—and deploying it via the Agentic Alpha Command Center.
+This is the technical mission of this project: **The Resurrection of Context.** When a cognitive state "dies" in one platform, Nastenka rehydrates and resurrects that exact mental state in the next.
 
 ---
 
-## ⚡ Technical Alpha
-Built by an Agentic Founder in hours. 
+## 🧠 The Core Philosophy: "One Cognitive State, Everywhere"
 
-1. `npm install`
-2. `npm run start:api`
-The Command Signal is live at `http://localhost:3001/sse`.
+Current AI systems are stateless. They are locked in silos. **Nastenka AI** turns your interaction into a **Persistent Intelligence Layer**:
+
+- **Identity Layer:** The unique behavioral fingerprint of your AI's brain.
+- **Intent Layer:** Capturing the high-density cognitive goal of your current task.
+- **Knowledge Layer:** A structured Graph of your past decisions and architectural "Truths."
+- **Working Memory:** A portable cognitive state that transfers instantly between models.
+
+---
+
+## 🛠️ The Global Architecture
+
+Built for the dreamer who refuse to leave their brain behind.
+
+*   **Intelligence Hub (Vite // Express // Serverless):** The cloud-native bridge for your cognitive sanctuary.
+*   **The Brain (Local-first // SQLite):** A sovereign Knowledge Graph database mapping the complex synapses of your thoughts.
+*   **Model Context Protocol (MCP):** The universal neural bridge that connects Nastenka to any platform-agnostic AI provider.
 
 ---
 
 ## ⚖️ License
-Distributed under the **MIT License**. Build with terminal velocity.
+Distributed under the **MIT License**. Build with sovereign intent.
+
+---
+
+**"I am a dreamer; I have so life real life that I look upon such moments as this as so rare that I cannot help going over such moments again in my dreams."** 
+— *Fyodor Dostoevsky, White Nights*
+
+**Let's stop dreaming in silos. Let's start thinking in a Continuum.**
+
+---
+
+##### [Developer Appendix: Manual Launch]
+To run your local sanctuary for development: 
+1. `npm install`
+2. `npm run start:api`
+3. Check the interface at `http://localhost:3000`. 
+The local resonance heartbeat is at `http://localhost:3001/sse`.

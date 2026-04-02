@@ -36,7 +36,7 @@ const DashboardView: React.FC<DashboardViewProps> = ({ onLogout }) => {
             auto_awesome
           </span>
           <h1 className="text-xl font-headline italic text-violet-200 tracking-widest uppercase">
-            Agentic Command Center
+            Nastenka Command Center
           </h1>
         </div>
         <div className="flex items-center gap-6">
@@ -93,9 +93,9 @@ const DashboardView: React.FC<DashboardViewProps> = ({ onLogout }) => {
             <button 
               onClick={() => {
                 const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-                const newLog = { time: now, message: "🚀 AGENTIC SYNC: Strategic Decision 'Alpha-Launch' Locked.", status: "VERIFIED" };
+                const newLog = { time: now, message: "🚀 NASTENKA SYNC: Strategic Decision 'Resurrection-Launch' Locked.", status: "VERIFIED" };
                 setLogs(prev => [newLog, ...prev]);
-                alert("⚡ Agentic Pulse Initiated: Command Locked to Sovereign Ledger.");
+                alert("⚡ Nastenka Pulse Initiated: Command Locked to Sovereign Ledger.");
               }}
               className="w-full flex items-center gap-3 py-4 px-5 rounded-2xl text-primary bg-primary/10 border border-primary/30 group shadow-[0_0_20px_rgba(139,92,246,0.15)] hover:bg-primary/20 transition-all duration-500"
             >
@@ -135,7 +135,7 @@ const DashboardView: React.FC<DashboardViewProps> = ({ onLogout }) => {
           {/* Hero Header */}
           <header className="max-w-5xl mb-20 relative z-10">
             <h2 className="text-5xl md:text-7xl font-headline italic tracking-tight text-violet-100 mb-4">
-              Agentic Command Center
+              Nastenka Command Center
             </h2>
             <div className="flex items-center gap-4 text-slate-400">
               <span className="h-px w-12 bg-violet-500/30"></span>
@@ -179,7 +179,7 @@ const DashboardView: React.FC<DashboardViewProps> = ({ onLogout }) => {
                   <div className="flex justify-between items-center">
                     <div className="h-10 opacity-60 grayscale hover:grayscale-0 transition-all text-violet-400 flex items-center gap-2">
                       <span className="material-symbols-outlined text-3xl">insights</span>
-                      <span className="text-[10px] uppercase font-label">Agentic Alpha v.2026</span>
+                      <span className="text-[10px] uppercase font-label">Nastenka AI v.2026</span>
                     </div>
                     <button 
                       onClick={() => window.open('https://github.com/KhanXBT/nastenka-ai', '_blank')}

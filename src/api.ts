@@ -70,7 +70,7 @@ const authenticate = (req: express.Request, res: express.Response, next: express
 let isMemoryInitialized = false;
 const initializeMemory = (req: express.Request, res: express.Response, next: express.NextFunction) => {
   if (!isMemoryInitialized) {
-    console.log("🚀 Agentic Alpha: Initializing Command Memory...");
+    console.log("🚀 Nastenka AI: Initializing Command Memory...");
     try {
       setupDB();
       seedDream();
@@ -94,7 +94,7 @@ app.post("/api/waitlist", async (req, res) => {
   if (resend) {
     try {
       await resend.emails.send({
-        from: 'Agentic Alpha <onboarding@resend.dev>',
+        from: 'Nastenka AI <onboarding@resend.dev>',
         to: 'nastenka.ai.contact@gmail.com',
         subject: '🚀 AGENTIC SIGNAL: New Alpha Candidate',
         html: `<p>New identity proxy: <strong>${email}</strong></p>`,
@@ -117,7 +117,7 @@ app.use('/sse', authenticate);
 // -----------------------------------------------------------------------------
 function createAlphaServer() {
   const server = new McpServer({
-    name: "Agentic-Alpha",
+    name: "Nastenka-AI",
     version: "1.0.0",
   });
 
@@ -149,7 +149,7 @@ function createAlphaServer() {
       return {
         content: [{ 
           type: "text", 
-          text: `Agentic Alpha has synchronized the flow for '${projectName}'.\nFilecoin Proof: ${filecoinCid}` 
+          text: `Nastenka AI has synchronized the flow for '${projectName}'.\nFilecoin Proof: ${filecoinCid}` 
         }],
       };
     }
@@ -182,14 +182,14 @@ function createAlphaServer() {
       const latestSynapse = data.latestSynapses[0];
       
       if (!latestSynapse && data.rules.length === 0) {
-        return { content: [{ type: "text", text: `Agentic Alpha has no signal of '${projectName}'.` }] };
+        return { content: [{ type: "text", text: `Nastenka AI has no signal of '${projectName}'.` }] };
       }
 
       const rulesStr = data.rules.map((r: StrategicRule) => `- ${r.decision_name}: ${r.rationale}`).join("\n");
       const synapseStr = latestSynapse ? `\nLATEST INTENT: ${latestSynapse.intent || latestSynapse.content}` : "";
 
       return {
-        content: [{ type: "text", text: `AGENTIC ALPHA SYNC PAYLOAD for '${projectName}':\n\nSTRATEGIC RULES:\n${rulesStr}\n${synapseStr}` }],
+        content: [{ type: "text", text: `NASTENKA AI SYNC PAYLOAD for '${projectName}':\n\nSTRATEGIC RULES:\n${rulesStr}\n${synapseStr}` }],
       };
     }
   );
@@ -208,7 +208,7 @@ function createAlphaServer() {
 //   4. Graceful 503 when session missing → client knows to reconnect
 
 const sessions = new Map<string, SSEServerTransport>();
-const SESSIONS_FILE = '/tmp/alpha_sessions.json';
+const SESSIONS_FILE = '/tmp/nastenka_sessions.json';
 
 function persistSessionIds() {
   try {
@@ -218,7 +218,7 @@ function persistSessionIds() {
 }
 
 app.get("/sse", async (req, res) => {
-  console.log("🚀 Agentic Alpha: Establishing Command Handshake...");
+  console.log("🚀 Nastenka AI: Establishing Command Handshake...");
   
   const sovereignKey = process.env.NASTENKA_API_KEY;
   

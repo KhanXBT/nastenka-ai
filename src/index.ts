@@ -18,7 +18,7 @@ interface StrategicRule {
 setupDB();
 
 const server = new McpServer({
-  name: "Agentic-Alpha",
+  name: "Nastenka-AI",
   version: "1.0.0",
 });
 
@@ -48,7 +48,7 @@ server.tool(
     return {
       content: [{ 
         type: "text", 
-        text: `Agentic Alpha has synchronized the flow for '${projectName}'.\nSynapse recorded.\nFilecoin Proof: ${filecoinCid}` 
+        text: `Nastenka AI has synchronized the flow for '${projectName}'.\nSynapse recorded.\nFilecoin Proof: ${filecoinCid}` 
       }],
     };
   }
@@ -67,7 +67,7 @@ server.tool(
   async ({ projectName, decisionName, rationale }) => {
     saveStrategicDecision(projectName, decisionName, rationale);
     return {
-      content: [{ type: "text", text: `Strategic decision '${decisionName}' has been locked by Agentic Alpha for '${projectName}'.` }],
+      content: [{ type: "text", text: `Strategic decision '${decisionName}' has been locked by Nastenka AI for '${projectName}'.` }],
     };
   }
 );
@@ -86,7 +86,7 @@ server.tool(
     
     if (!latestSynapse && data.rules.length === 0) {
       return {
-        content: [{ type: "text", text: `Agentic Alpha has no signal of a project named '${projectName}'.` }],
+        content: [{ type: "text", text: `Nastenka AI has no signal of a project named '${projectName}'.` }],
       };
     }
 
@@ -96,7 +96,7 @@ server.tool(
       : "";
 
     return {
-      content: [{ type: "text", text: `AGENTIC ALPHA SYNC PAYLOAD for '${projectName}':\n\nSTRATEGIC RULES:\n${rulesStr}\n${synapseStr}` }],
+      content: [{ type: "text", text: `NASTENKA AI SYNC PAYLOAD for '${projectName}':\n\nSTRATEGIC RULES:\n${rulesStr}\n${synapseStr}` }],
     };
   }
 );
@@ -104,7 +104,7 @@ server.tool(
 async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  console.error("Agentic Alpha Command Hub running on Stdio.");
+  console.error("Nastenka AI Command Hub running on Stdio.");
 }
 
 main().catch(console.error);

@@ -29,10 +29,10 @@ const LoginView: React.FC<LoginViewProps> = ({ onLogin }) => {
             </span>
           </div>
           <h1 className="font-headline italic text-4xl md:text-5xl text-primary text-center tracking-tight leading-tight">
-            Agentic Alpha Gateway
+            Nastenka AI Gateway
           </h1>
           <p className="font-label text-secondary/60 tracking-[0.2em] uppercase text-[10px] mt-4">
-            Agentic Command v.2026
+            Sovereign Memory v.2026
           </p>
         </div>
 
@@ -52,7 +52,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onLogin }) => {
                   type="email"
                   id="email"
                   className="block w-full bg-surface-container-lowest border-0 rounded-md py-4 pl-10 pr-4 text-on-surface ring-1 ring-white/5 focus:ring-1 focus:ring-primary/40 focus:bg-surface-container-low transition-all duration-300 placeholder:text-secondary/20 font-body text-sm"
-                  placeholder="founder@agentic.alpha"
+                   placeholder="dreamer@nastenka-ai.site"
                   required
                 />
               </div>
@@ -112,7 +112,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onLogin }) => {
             <button className="font-label text-[9px] tracking-widest text-secondary/40 hover:text-primary transition-colors uppercase">Terminal Terms</button>
           </div>
           <p className="font-label text-[8px] tracking-[0.3em] text-secondary/20 uppercase">
-            © 2026 Agentic Intelligence Command
+            © 2026 Sovereign Intelligence Command
           </p>
         </footer>
       </main>

@@ -2,11 +2,11 @@ import { getDB } from "./db.js";
 
 export function seedDream() {
   const db = getDB();
-  console.log("🚀 Agentic Alpha: Initializing Command Synapses...");
+  console.log("🚀 Nastenka AI: Initializing Command Synapses...");
 
   // 1. Create Hackathon Projects
   const projects = [
-    { id: 'alpha-demo', name: 'Project: Agentic Alpha', desc: 'A high-velocity intelligence map for the modern builder.' },
+    { id: 'nastenka-demo', name: 'Project: Nastenka AI', desc: 'A sovereign intelligence map for the modern builder.' },
     { id: 'pl-genesis-hub', name: 'PL_Genesis Command Hub', desc: 'Hackathon submission for terminal velocity AI orchestration.' }
   ];
 
@@ -20,10 +20,10 @@ export function seedDream() {
     { project: 'pl-genesis-hub', type: 'decision', content: 'Persistence Tier: Moved from ephemeral tokens to sovereign SQLite /tmp/ memory.' },
     { project: 'pl-genesis-hub', type: 'intent', content: 'Mission: To maintain terminal velocity across separate AI sessions.' },
     { project: 'pl-genesis-hub', type: 'identity', content: 'Founder Mode: Implementing "The Command" as a high-performance orchestration layer.' },
-    { project: 'alpha-demo', type: 'architecture', content: '"Signal-First Rule": Minimalist, high-performance design system.' },
-    { project: 'alpha-demo', type: 'context', content: 'Agentic Sync Protocol: Re-injecting project strategic rules into new LLM prompts.' },
-    { project: 'alpha-demo', type: 'status', content: 'Vercel Deployment: Hub stabilized with the "Sovereign Handshake" fix.' },
-    { project: 'alpha-demo', type: 'storage', content: 'Filecoin Proof: Synapse Cid verified on-chain at block 894,321.' },
+    { project: 'nastenka-demo', type: 'architecture', content: '"Signal-First Rule": Minimalist, high-performance design system.' },
+    { project: 'nastenka-demo', type: 'context', content: 'Sovereign Sync Protocol: Re-injecting project strategic rules into new LLM prompts.' },
+    { project: 'nastenka-demo', type: 'status', content: 'Vercel Deployment: Hub stabilized with the "Sovereign Handshake" fix.' },
+    { project: 'nastenka-demo', type: 'storage', content: 'Filecoin Proof: Synapse Cid verified on-chain at block 894,321.' },
     { project: 'pl-genesis-hub', type: 'strategic', content: 'Absolute Context: Ensuring managed firm data never loses its grounding.' }
   ];
 
@@ -64,7 +64,7 @@ export function seedDream() {
     console.log("🔒 Strategic decisions locked.");
   }
 
-  console.log("🚀 DEMO READY: Agentic Alpha is now primed for command.");
+  console.log("🚀 DEMO READY: Nastenka AI is now primed for command.");
 }
 
 if (process.argv[1] === import.meta.url) {
